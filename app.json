@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "test-expo",
-    "slug": "test-expo",
-    "version": "1.0.0",
+    "name": "ai-tinder",
+    "slug": "ai-tinder",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "testexpo",
+    "scheme": "aitinder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
