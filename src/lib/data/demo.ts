@@ -8,9 +8,24 @@ import IMAGE_07 from "@/assets/images/07.jpg";
 import IMAGE_08 from "@/assets/images/08.jpg";
 import IMAGE_09 from "@/assets/images/09.jpg";
 import IMAGE_10 from "@/assets/images/10.jpg";
-import type { DataT } from "@/types";
 
-export const DEMO_DATA: DataT[] = [
+type DemoData = {
+  id: number;
+  name: string;
+  isOnline: boolean;
+  match: string;
+  description: string;
+  message: string;
+  image: any;
+  age?: string;
+  info1?: string;
+  info2?: string;
+  info3?: string;
+  info4?: string;
+  location?: string;
+};
+
+export const DEMO_DATA: DemoData[] = [
   {
     id: 1,
     name: "Leanne Graham",

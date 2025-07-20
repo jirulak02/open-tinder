@@ -16,13 +16,11 @@ const ProfileScreen = () => {
             <TouchableOpacity>
               <Icon name="chevron-back" size={20} color={WHITE} style={styles.topIconLeft} />
             </TouchableOpacity>
-
             <TouchableOpacity>
               <Icon name="ellipsis-vertical" size={20} color={WHITE} style={styles.topIconRight} />
             </TouchableOpacity>
           </View>
         </ImageBackground>
-
         <ProfileItem
           matches={match}
           name={name}
@@ -33,12 +31,10 @@ const ProfileScreen = () => {
           info3={info3}
           info4={info4}
         />
-
         <View style={styles.actionsProfile}>
           <TouchableOpacity style={styles.circledButton}>
             <Icon name="ellipsis-horizontal" size={20} color={WHITE} />
           </TouchableOpacity>
-
           <TouchableOpacity style={styles.roundedButton}>
             <Icon name="chatbubble" size={20} color={WHITE} />
             <Text style={styles.textButton}>Start chatting</Text>

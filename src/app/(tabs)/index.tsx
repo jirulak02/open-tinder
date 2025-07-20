@@ -19,12 +19,11 @@ const HomeScreen = () => {
           <City />
           <Filters />
         </View>
-
         <CardStack
           loop
           verticalSwipe={false}
           renderNoMoreCards={() => null}
-          ref={(newSwiper): void => setSwiper(newSwiper)}
+          ref={(newSwiper) => setSwiper(newSwiper)}
         >
           {DEMO_DATA.map((item) => (
             <Card key={item.id}>

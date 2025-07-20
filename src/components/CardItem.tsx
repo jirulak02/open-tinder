@@ -9,7 +9,16 @@ import {
   WHITE,
   styles,
 } from "@/styles";
-import type { CardItemT } from "@/types";
+
+type Props = {
+  description?: string;
+  hasActions?: boolean;
+  hasVariant?: boolean;
+  image: any;
+  isOnline?: boolean;
+  matches?: string;
+  name: string;
+};
 
 export const CardItem = ({
   description,
@@ -19,9 +28,8 @@ export const CardItem = ({
   isOnline,
   matches,
   name,
-}: CardItemT) => {
+}: Props) => {
   const fullWidth = Dimensions.get("window").width;
-
   const imageStyle = [
     {
       borderRadius: 8,
@@ -30,7 +38,6 @@ export const CardItem = ({
       margin: hasVariant ? 0 : 20,
     },
   ];
-
   const nameStyle = [
     {
       paddingTop: hasVariant ? 10 : 15,

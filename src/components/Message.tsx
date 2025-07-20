@@ -1,9 +1,14 @@
 import { Image, Text, View } from "react-native";
 
 import { styles } from "@/styles";
-import type { MessageT } from "@/types";
 
-export const Message = ({ image, lastMessage, name }: MessageT) => (
+type Props = {
+  image: any;
+  lastMessage: string;
+  name: string;
+};
+
+export const Message = ({ image, lastMessage, name }: Props) => (
   <View style={styles.containerMessage}>
     <Image source={image} style={styles.avatar} />
     <View>

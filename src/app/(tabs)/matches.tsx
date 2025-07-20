@@ -15,7 +15,6 @@ const MatchesScreen = () => {
             <Icon name="ellipsis-vertical" color={DARK_GRAY} size={20} />
           </TouchableOpacity>
         </View>
-
         <FlatList
           numColumns={2}
           data={DEMO_DATA}

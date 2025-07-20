@@ -2,9 +2,14 @@ import { Text, View } from "react-native";
 
 import { Icon } from "./Icon";
 import { DARK_GRAY, PRIMARY_COLOR, styles } from "@/styles";
-import type { TabBarIconT } from "@/types";
 
-export const TabBarIcon = ({ focused, iconName, text }: TabBarIconT) => {
+type Props = {
+  focused: boolean;
+  iconName: any;
+  text: string;
+};
+
+export const TabBarIcon = ({ focused, iconName, text }: Props) => {
   const iconFocused = focused ? PRIMARY_COLOR : DARK_GRAY;
 
   return (

@@ -15,7 +15,6 @@ const MessagesScreen = () => {
             <Icon name="ellipsis-vertical" color={DARK_GRAY} size={20} />
           </TouchableOpacity>
         </View>
-
         <FlatList
           data={DEMO_DATA}
           keyExtractor={(item, index) => index.toString()}
