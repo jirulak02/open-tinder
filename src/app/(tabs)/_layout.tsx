@@ -1,9 +1,9 @@
-import { BLACK, DARK_GRAY, PRIMARY_COLOR, WHITE } from "@/assets/styles";
-import TabBarIcon from "@/components/TabBarIcon";
 import { Tabs } from "expo-router";
-import React from "react";
 
-export default function TabLayout() {
+import { TabBarIcon } from "@/components/TabBarIcon";
+import { BLACK, DARK_GRAY, PRIMARY_COLOR, WHITE } from "@/styles";
+
+const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
@@ -66,4 +66,6 @@ export default function TabLayout() {
       />
     </Tabs>
   );
-}
+};
+
+export default TabLayout;

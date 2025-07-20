@@ -1,10 +1,10 @@
-import React from "react";
 import { Text, View } from "react-native";
-import styles, { DARK_GRAY, PRIMARY_COLOR } from "../assets/styles";
-import { TabBarIconT } from "../types";
-import Icon from "./Icon";
 
-const TabBarIcon = ({ focused, iconName, text }: TabBarIconT) => {
+import { Icon } from "./Icon";
+import { DARK_GRAY, PRIMARY_COLOR, styles } from "@/styles";
+import type { TabBarIconT } from "@/types";
+
+export const TabBarIcon = ({ focused, iconName, text }: TabBarIconT) => {
   const iconFocused = focused ? PRIMARY_COLOR : DARK_GRAY;
 
   return (
@@ -14,5 +14,3 @@ const TabBarIcon = ({ focused, iconName, text }: TabBarIconT) => {
     </View>
   );
 };
-
-export default TabBarIcon;

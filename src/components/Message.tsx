@@ -1,9 +1,9 @@
-import React from "react";
 import { Image, Text, View } from "react-native";
-import styles from "../assets/styles";
-import { MessageT } from "../types";
 
-const Message = ({ image, lastMessage, name }: MessageT) => (
+import { styles } from "@/styles";
+import type { MessageT } from "@/types";
+
+export const Message = ({ image, lastMessage, name }: MessageT) => (
   <View style={styles.containerMessage}>
     <Image source={image} style={styles.avatar} />
     <View>
@@ -12,5 +12,3 @@ const Message = ({ image, lastMessage, name }: MessageT) => (
     </View>
   </View>
 );
-
-export default Message;

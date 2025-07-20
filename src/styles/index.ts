@@ -18,7 +18,7 @@ export const FLASH_ACTIONS = "#5028D7";
 export const DIMENSION_WIDTH = Dimensions.get("window").width;
 export const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
-export default StyleSheet.create({
+export const styles = StyleSheet.create({
   // COMPONENT - CARD ITEM
   containerCardItem: {
     backgroundColor: WHITE,

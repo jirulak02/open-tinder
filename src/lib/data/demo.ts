@@ -8,9 +8,9 @@ import IMAGE_07 from "@/assets/images/07.jpg";
 import IMAGE_08 from "@/assets/images/08.jpg";
 import IMAGE_09 from "@/assets/images/09.jpg";
 import IMAGE_10 from "@/assets/images/10.jpg";
-import { DataT } from "@/types";
+import type { DataT } from "@/types";
 
-const data: DataT[] = [
+export const DEMO_DATA: DataT[] = [
   {
     id: 1,
     name: "Leanne Graham",
@@ -39,8 +39,7 @@ const data: DataT[] = [
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     isOnline: false,
-    message:
-      "Oh, hee-hee, aha. Ha, ooh, hee, ha-ha, ha-ha. And I thought my jokes were bad.",
+    message: "Oh, hee-hee, aha. Ha, ooh, hee, ha-ha, ha-ha. And I thought my jokes were bad.",
     image: IMAGE_03,
   },
   {
@@ -70,8 +69,7 @@ const data: DataT[] = [
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     isOnline: true,
-    message:
-      "You have nothing, nothing to threaten me with. Nothing to do with all your strength.",
+    message: "You have nothing, nothing to threaten me with. Nothing to do with all your strength.",
     image: IMAGE_06,
   },
   {
@@ -81,8 +79,7 @@ const data: DataT[] = [
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     isOnline: true,
-    message:
-      "Never start with the head. The victim gets all fuzzy. He can't feel the next... See?",
+    message: "Never start with the head. The victim gets all fuzzy. He can't feel the next... See?",
     image: IMAGE_07,
   },
   {
@@ -98,8 +95,7 @@ const data: DataT[] = [
     info3: "Beaches, Mountain, Cafe, Movies",
     info4: "Last seen: 23h ago",
     isOnline: true,
-    message:
-      "And as for the television's so-called plan, Batman has no jurisdiction.",
+    message: "And as for the television's so-called plan, Batman has no jurisdiction.",
     image: IMAGE_08,
   },
   {
@@ -109,8 +105,7 @@ const data: DataT[] = [
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     isOnline: true,
-    message:
-      "This is what happens when an unstoppable force meets an immovable object.",
+    message: "This is what happens when an unstoppable force meets an immovable object.",
     image: IMAGE_09,
   },
   {
@@ -120,10 +115,7 @@ const data: DataT[] = [
     description:
       "Full-time Traveller. Globe Trotter. Occasional Photographer. Part time Singer/Dancer.",
     isOnline: false,
-    message:
-      "You want order in Gotham. Batman must take off his mask and turn himself in.",
+    message: "You want order in Gotham. Batman must take off his mask and turn himself in.",
     image: IMAGE_10,
   },
 ];
-
-export default data;

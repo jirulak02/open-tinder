@@ -1,19 +1,19 @@
-import DEMO from "@/assets/data/demo";
-import styles from "@/assets/styles";
-import { CardItem, City, Filters } from "@/components";
 import React, { useState } from "react";
 import { ImageBackground, View } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 
-export default function HomeScreen() {
+import { CardItem } from "@/components/CardItem";
+import { City } from "@/components/City";
+import { Filters } from "@/components/Filters";
+import { DEMO_DATA } from "@/lib/data/demo";
+import { styles } from "@/styles";
+
+const HomeScreen = () => {
   const [swiper, setSwiper] = useState<CardStack | null>(null);
   void swiper;
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/bg.png")}
-      style={styles.bg}
-    >
+    <ImageBackground source={require("@/assets/images/bg.png")} style={styles.bg}>
       <View style={styles.containerHome}>
         <View style={styles.top}>
           <City />
@@ -26,7 +26,7 @@ export default function HomeScreen() {
           renderNoMoreCards={() => null}
           ref={(newSwiper): void => setSwiper(newSwiper)}
         >
-          {DEMO.map((item) => (
+          {DEMO_DATA.map((item) => (
             <Card key={item.id}>
               <CardItem
                 hasActions
@@ -41,4 +41,6 @@ export default function HomeScreen() {
       </View>
     </ImageBackground>
   );
-}
+};
+
+export default HomeScreen;

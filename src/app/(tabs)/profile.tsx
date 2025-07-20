@@ -1,42 +1,24 @@
-import DEMO from "@/assets/data/demo";
-import styles, { WHITE } from "@/assets/styles";
-import { Icon, ProfileItem } from "@/components";
-import {
-  ImageBackground,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-export default function ProfileScreen() {
-  const { age, image, info1, info2, info3, info4, location, match, name } =
-    DEMO[7];
+import { Icon } from "@/components/Icon";
+import { ProfileItem } from "@/components/ProfileItem";
+import { DEMO_DATA } from "@/lib/data/demo";
+import { WHITE, styles } from "@/styles";
+
+const ProfileScreen = () => {
+  const { age, image, info1, info2, info3, info4, location, match, name } = DEMO_DATA[7];
 
   return (
-    <ImageBackground
-      source={require("@/assets/images/bg.png")}
-      style={styles.bg}
-    >
+    <ImageBackground source={require("@/assets/images/bg.png")} style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
         <ImageBackground source={image} style={styles.photo}>
           <View style={styles.top}>
             <TouchableOpacity>
-              <Icon
-                name="chevron-back"
-                size={20}
-                color={WHITE}
-                style={styles.topIconLeft}
-              />
+              <Icon name="chevron-back" size={20} color={WHITE} style={styles.topIconLeft} />
             </TouchableOpacity>
 
             <TouchableOpacity>
-              <Icon
-                name="ellipsis-vertical"
-                size={20}
-                color={WHITE}
-                style={styles.topIconRight}
-              />
+              <Icon name="ellipsis-vertical" size={20} color={WHITE} style={styles.topIconRight} />
             </TouchableOpacity>
           </View>
         </ImageBackground>
@@ -65,4 +47,6 @@ export default function ProfileScreen() {
       </ScrollView>
     </ImageBackground>
   );
-}
+};
+
+export default ProfileScreen;

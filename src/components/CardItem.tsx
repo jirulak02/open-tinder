@@ -1,16 +1,17 @@
-import React from "react";
 import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
-import styles, {
+
+import { Icon } from "./Icon";
+import {
   DISLIKE_ACTIONS,
   FLASH_ACTIONS,
   LIKE_ACTIONS,
   STAR_ACTIONS,
   WHITE,
-} from "../assets/styles";
-import { CardItemT } from "../types";
-import Icon from "./Icon";
+  styles,
+} from "@/styles";
+import type { CardItemT } from "@/types";
 
-const CardItem = ({
+export const CardItem = ({
   description,
   hasActions,
   hasVariant,
@@ -19,7 +20,6 @@ const CardItem = ({
   matches,
   name,
 }: CardItemT) => {
-  // Custom styling
   const fullWidth = Dimensions.get("window").width;
 
   const imageStyle = [
@@ -58,17 +58,13 @@ const CardItem = ({
       <Text style={nameStyle}>{name}</Text>
 
       {/* DESCRIPTION */}
-      {description && (
-        <Text style={styles.descriptionCardItem}>{description}</Text>
-      )}
+      {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
 
       {/* STATUS */}
       {!description && (
         <View style={styles.status}>
           <View style={isOnline ? styles.online : styles.offline} />
-          <Text style={styles.statusText}>
-            {isOnline ? "Online" : "Offline"}
-          </Text>
+          <Text style={styles.statusText}>{isOnline ? "Online" : "Offline"}</Text>
         </View>
       )}
 
@@ -95,5 +91,3 @@ const CardItem = ({
     </View>
   );
 };
-
-export default CardItem;

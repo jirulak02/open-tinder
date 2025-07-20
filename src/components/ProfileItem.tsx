@@ -1,10 +1,10 @@
-import React from "react";
 import { Text, View } from "react-native";
-import styles, { DARK_GRAY, WHITE } from "../assets/styles";
-import { ProfileItemT } from "../types";
-import Icon from "./Icon";
 
-const ProfileItem = ({
+import { Icon } from "./Icon";
+import { DARK_GRAY, WHITE, styles } from "@/styles";
+import type { ProfileItemT } from "@/types";
+
+export const ProfileItem = ({
   age,
   info1,
   info2,
@@ -56,5 +56,3 @@ const ProfileItem = ({
     </View>
   </View>
 );
-
-export default ProfileItem;
