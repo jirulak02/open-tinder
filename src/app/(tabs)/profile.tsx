@@ -1,5 +1,6 @@
 import { ImageBackground, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
+import IMAGE_BG from "@/assets/images/bg.png";
 import { Icon } from "@/components/Icon";
 import { ProfileItem } from "@/components/ProfileItem";
 import { DEMO_DATA } from "@/lib/data/demo";
@@ -9,7 +10,7 @@ const ProfileScreen = () => {
   const { age, image, info1, info2, info3, info4, location, match, name } = DEMO_DATA[7];
 
   return (
-    <ImageBackground source={require("@/assets/images/bg.png")} style={styles.bg}>
+    <ImageBackground source={IMAGE_BG} style={styles.bg}>
       <ScrollView style={styles.containerProfile}>
         <ImageBackground source={image} style={styles.photo}>
           <View style={styles.top}>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ImageBackground, View } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 
+import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
 import { City } from "@/components/City";
 import { Filters } from "@/components/Filters";
@@ -13,7 +14,7 @@ const HomeScreen = () => {
   void swiper;
 
   return (
-    <ImageBackground source={require("@/assets/images/bg.png")} style={styles.bg}>
+    <ImageBackground source={IMAGE_BG} style={styles.bg}>
       <View style={styles.containerHome}>
         <View style={styles.top}>
           <City />

@@ -1,5 +1,6 @@
 import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
+import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
 import { Icon } from "@/components/Icon";
 import { DEMO_DATA } from "@/lib/data/demo";
@@ -7,7 +8,7 @@ import { DARK_GRAY, styles } from "@/styles";
 
 const MatchesScreen = () => {
   return (
-    <ImageBackground source={require("@/assets/images/bg.png")} style={styles.bg}>
+    <ImageBackground source={IMAGE_BG} style={styles.bg}>
       <View style={styles.containerMatches}>
         <View style={styles.top}>
           <Text style={styles.title}>Matches</Text>
