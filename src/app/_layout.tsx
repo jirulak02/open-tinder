@@ -1,7 +1,12 @@
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
+
+const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
+  unsavedChangesWarning: false,
+});
 
 const RootLayout = () => {
   const [loaded] = useFonts({
@@ -14,13 +19,13 @@ const RootLayout = () => {
   }
 
   return (
-    <>
+    <ConvexProvider client={convex}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
-    </>
+    </ConvexProvider>
   );
 };
 
