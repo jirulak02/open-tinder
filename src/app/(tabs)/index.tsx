@@ -1,39 +1,46 @@
-import React, { useState } from "react";
-import { ImageBackground, View } from "react-native";
+import { useQuery } from "convex/react";
+import { useState } from "react";
+import { ActivityIndicator, ImageBackground, View } from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 
 import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
-import { City } from "@/components/City";
-import { Filters } from "@/components/Filters";
-import { DEMO_DATA } from "@/lib/data/demo";
 import { styles } from "@/styles";
+import { api } from "@convex/_generated/api";
 
 const HomeScreen = () => {
   const [swiper, setSwiper] = useState<CardStack | null>(null);
+  const profiles = useQuery(api.profiles.getAllProfiles);
+
   void swiper;
+
+  if (!profiles) {
+    return (
+      <ImageBackground source={IMAGE_BG} style={styles.bg}>
+        <View style={[styles.containerHome, { justifyContent: "center", alignItems: "center" }]}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      </ImageBackground>
+    );
+  }
 
   return (
     <ImageBackground source={IMAGE_BG} style={styles.bg}>
       <View style={styles.containerHome}>
-        <View style={styles.top}>
-          <City />
-          <Filters />
-        </View>
         <CardStack
           loop
           verticalSwipe={false}
           renderNoMoreCards={() => null}
           ref={(newSwiper) => setSwiper(newSwiper)}
         >
-          {DEMO_DATA.map((item) => (
-            <Card key={item.id}>
+          {profiles.map((item) => (
+            <Card key={item._id}>
               <CardItem
                 hasActions
-                image={item.image}
                 name={item.name}
+                age={item.age}
                 description={item.description}
-                matches={item.match}
+                image={item.imageUrl}
               />
             </Card>
           ))}

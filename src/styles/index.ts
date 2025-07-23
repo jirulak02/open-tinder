@@ -154,11 +154,6 @@ export const styles = StyleSheet.create({
     marginRight: 20,
     marginVertical: 15,
   },
-  message: {
-    color: GRAY,
-    fontSize: 12,
-    paddingTop: 5,
-  },
 
   // COMPONENT - PROFILE ITEM
   containerProfileItem: {
@@ -234,6 +229,7 @@ export const styles = StyleSheet.create({
   // CONTAINER - HOME
   containerHome: {
     marginHorizontal: 10,
+    marginTop: 100,
   },
 
   // CONTAINER - MATCHES
@@ -295,8 +291,10 @@ export const styles = StyleSheet.create({
   // MENU
   tabButtonText: {
     textTransform: "uppercase",
+    fontSize: 12,
   },
   iconMenu: {
     alignItems: "center",
+    minWidth: 60,
   },
 });

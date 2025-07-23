@@ -55,15 +55,6 @@ const TabLayout = () => {
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="person" text="Profile" />
-          ),
-        }}
-      />
     </Tabs>
   );
 };

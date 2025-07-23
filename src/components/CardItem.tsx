@@ -11,24 +11,15 @@ import {
 } from "@/styles";
 
 type Props = {
-  description?: string;
+  name: string;
+  age: number;
+  description: string;
+  image: string;
   hasActions?: boolean;
   hasVariant?: boolean;
-  image: any;
-  isOnline?: boolean;
-  matches?: string;
-  name: string;
 };
 
-export const CardItem = ({
-  description,
-  hasActions,
-  hasVariant,
-  image,
-  isOnline,
-  matches,
-  name,
-}: Props) => {
+export const CardItem = ({ age, description, hasActions, hasVariant, image, name }: Props) => {
   const fullWidth = Dimensions.get("window").width;
   const imageStyle = [
     {
@@ -50,13 +41,13 @@ export const CardItem = ({
   return (
     <View style={styles.containerCardItem}>
       {/* IMAGE */}
-      <Image source={image} style={imageStyle} />
+      <Image source={{ uri: image }} style={imageStyle} />
 
       {/* MATCHES */}
-      {matches && (
+      {age && (
         <View style={styles.matchesCardItem}>
           <Text style={styles.matchesTextCardItem}>
-            <Icon name="heart" color={WHITE} size={13} /> {matches}% Match!
+            <Icon name="heart" color={WHITE} size={13} /> {age}
           </Text>
         </View>
       )}
@@ -66,14 +57,6 @@ export const CardItem = ({
 
       {/* DESCRIPTION */}
       {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
-
-      {/* STATUS */}
-      {!description && (
-        <View style={styles.status}>
-          <View style={isOnline ? styles.online : styles.offline} />
-          <Text style={styles.statusText}>{isOnline ? "Online" : "Offline"}</Text>
-        </View>
-      )}
 
       {/* ACTIONS */}
       {hasActions && (

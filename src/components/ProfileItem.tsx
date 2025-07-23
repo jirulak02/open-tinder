@@ -1,62 +1,24 @@
 import { Text, View } from "react-native";
 
 import { Icon } from "./Icon";
-import { DARK_GRAY, WHITE, styles } from "@/styles";
+import { WHITE, styles } from "@/styles";
 
 type Props = {
-  age?: string;
-  info1?: string;
-  info2?: string;
-  info3?: string;
-  info4?: string;
-  location?: string;
-  matches: string;
   name: string;
+  age: number;
+  description: string;
 };
 
-export const ProfileItem = ({
-  age,
-  info1,
-  info2,
-  info3,
-  info4,
-  location,
-  matches,
-  name,
-}: Props) => (
+export const ProfileItem = ({ name, age, description }: Props) => (
   <View style={styles.containerProfileItem}>
     <View style={styles.matchesProfileItem}>
       <Text style={styles.matchesTextProfileItem}>
-        <Icon name="heart" size={13} color={WHITE} /> {matches}% Match!
+        <Icon name="heart" size={13} color={WHITE} /> {age}
       </Text>
     </View>
-    <Text style={styles.name}>{name}</Text>
-    <Text style={styles.descriptionProfileItem}>
-      {age} - {location}
+    <Text style={styles.name}>
+      {name} - {age}
     </Text>
-    <View style={styles.info}>
-      <Text style={styles.iconProfile}>
-        <Icon name="person" size={12} color={DARK_GRAY} />
-      </Text>
-      <Text style={styles.infoContent}>{info1}</Text>
-    </View>
-    <View style={styles.info}>
-      <Text style={styles.iconProfile}>
-        <Icon name="pizza" size={12} color={DARK_GRAY} />
-      </Text>
-      <Text style={styles.infoContent}>{info2}</Text>
-    </View>
-    <View style={styles.info}>
-      <Text style={styles.iconProfile}>
-        <Icon name="airplane" size={12} color={DARK_GRAY} />
-      </Text>
-      <Text style={styles.infoContent}>{info3}</Text>
-    </View>
-    <View style={styles.info}>
-      <Text style={styles.iconProfile}>
-        <Icon name="calendar" size={12} color={DARK_GRAY} />
-      </Text>
-      <Text style={styles.infoContent}>{info4}</Text>
-    </View>
+    <Text style={styles.descriptionProfileItem}>{description}</Text>
   </View>
 );
