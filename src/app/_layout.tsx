@@ -1,12 +1,52 @@
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { Authenticated, ConvexReactClient, Unauthenticated, useQuery } from "convex/react";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import "react-native-reanimated";
+
+import { SignInScreen } from "@/features/auth/components/SignInScreen";
+import { ConvexAuthProvider, TokenStorage } from "@convex-dev/auth/react";
+import { api } from "@convex/_generated/api";
 
 const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
   unsavedChangesWarning: false,
 });
+
+const secureStorage = {
+  getItem: (key) => SecureStore.getItemAsync(key),
+  setItem: (key, value) => SecureStore.setItemAsync(key, value),
+  removeItem: (key) => SecureStore.deleteItemAsync(key),
+} as const satisfies TokenStorage;
+
+const RootLayoutContent = () => {
+  const loggedInUser = useQuery(api.auth.loggedInUser);
+  const profile = useQuery(api.profiles.getCurrentUserProfile);
+
+  if (loggedInUser === undefined || profile === undefined) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#3b82f6" />
+      </View>
+    );
+  }
+
+  return (
+    <>
+      <Authenticated>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        <StatusBar style="auto" />
+      </Authenticated>
+      <Unauthenticated>
+        <SignInScreen />
+      </Unauthenticated>
+    </>
+  );
+};
 
 const RootLayout = () => {
   const [loaded] = useFonts({
@@ -19,14 +59,19 @@ const RootLayout = () => {
   }
 
   return (
-    <ConvexProvider client={convex}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ConvexProvider>
+    <ConvexAuthProvider client={convex} storage={secureStorage}>
+      <RootLayoutContent />
+    </ConvexAuthProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+  },
+});
 
 export default RootLayout;
