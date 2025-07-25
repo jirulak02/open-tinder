@@ -3,7 +3,7 @@ import { ImageBackground, StyleSheet, View } from "react-native";
 import { SignInForm } from "./SignInForm";
 import IMAGE_BG from "@/assets/images/bg.png";
 
-export const SignInScreen = () => {
+export const SignIn = () => {
   return (
     <ImageBackground source={IMAGE_BG} style={styles.bg}>
       <View style={styles.container}>

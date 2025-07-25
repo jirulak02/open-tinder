@@ -3,10 +3,10 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import "react-native-reanimated";
+import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
 
-import { SignInScreen } from "@/features/auth/components/SignInScreen";
+import { SignIn } from "@/features/auth/components/SignIn";
+import { ProfileSetup } from "@/features/profile/components/ProfileSetup";
 import { ConvexAuthProvider, TokenStorage } from "@convex-dev/auth/react";
 import { api } from "@convex/_generated/api";
 
@@ -14,10 +14,13 @@ const convex = new ConvexReactClient(process.env.EXPO_PUBLIC_CONVEX_URL!, {
   unsavedChangesWarning: false,
 });
 
-const secureStorage = {
-  getItem: (key) => SecureStore.getItemAsync(key),
-  setItem: (key, value) => SecureStore.setItemAsync(key, value),
-  removeItem: (key) => SecureStore.deleteItemAsync(key),
+const storage = {
+  getItem: (key) =>
+    Platform.OS === "web" ? localStorage.getItem(key) : SecureStore.getItemAsync(key),
+  setItem: (key, value) =>
+    Platform.OS === "web" ? localStorage.setItem(key, value) : SecureStore.setItemAsync(key, value),
+  removeItem: (key) =>
+    Platform.OS === "web" ? localStorage.removeItem(key) : SecureStore.deleteItemAsync(key),
 } as const satisfies TokenStorage;
 
 const RootLayoutContent = () => {
@@ -35,14 +38,20 @@ const RootLayoutContent = () => {
   return (
     <>
       <Authenticated>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="auto" />
+        {!profile ? (
+          <ProfileSetup />
+        ) : (
+          <>
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </>
+        )}
       </Authenticated>
       <Unauthenticated>
-        <SignInScreen />
+        <SignIn />
       </Unauthenticated>
     </>
   );
@@ -59,7 +68,7 @@ const RootLayout = () => {
   }
 
   return (
-    <ConvexAuthProvider client={convex} storage={secureStorage}>
+    <ConvexAuthProvider client={convex} storage={storage}>
       <RootLayoutContent />
     </ConvexAuthProvider>
   );
