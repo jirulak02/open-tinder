@@ -1,16 +1,10 @@
 import { useQuery } from "convex/react";
-import {
-  ActivityIndicator,
-  FlatList,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
 import { Icon } from "@/components/Icon";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { DARK_GRAY, styles } from "@/styles";
 import { api } from "@convex/_generated/api";
 
@@ -18,13 +12,7 @@ const MatchesScreen = () => {
   const profiles = useQuery(api.profiles.getAllProfiles);
 
   if (!profiles) {
-    return (
-      <ImageBackground source={IMAGE_BG} style={styles.bg}>
-        <View style={[styles.containerMatches, { justifyContent: "center", alignItems: "center" }]}>
-          <ActivityIndicator size="large" color="#fff" />
-        </View>
-      </ImageBackground>
-    );
+    return <LoadingIndicator />;
   }
 
   return (

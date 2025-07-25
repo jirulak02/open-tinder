@@ -15,12 +15,6 @@ export const loggedInUser = query({
       return null;
     }
 
-    const user = await ctx.db.get(userId);
-
-    if (!user) {
-      return null;
-    }
-
-    return user;
+    return await ctx.db.get(userId);
   },
 });

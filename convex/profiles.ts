@@ -6,6 +6,12 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 export const getAllProfiles = query({
   args: {},
   handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
     return await ctx.db.query("profiles").collect();
   },
 });
@@ -17,12 +23,10 @@ export const getCurrentUserProfile = query({
 
     if (!userId) return null;
 
-    const profile = await ctx.db
+    return await ctx.db
       .query("profiles")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .unique();
-
-    return profile;
   },
 });
 
@@ -36,7 +40,9 @@ export const createProfile = mutation({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
 
-    if (!userId) throw new Error("Not authenticated");
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
 
     const existingProfile = await ctx.db
       .query("profiles")

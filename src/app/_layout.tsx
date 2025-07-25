@@ -3,8 +3,9 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
-import { ActivityIndicator, Platform, StyleSheet, View } from "react-native";
+import { Platform } from "react-native";
 
+import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignIn } from "@/features/auth/components/SignIn";
 import { ProfileSetup } from "@/features/profile/components/ProfileSetup";
 import { ConvexAuthProvider, TokenStorage } from "@convex-dev/auth/react";
@@ -28,11 +29,7 @@ const RootLayoutContent = () => {
   const profile = useQuery(api.profiles.getCurrentUserProfile);
 
   if (loggedInUser === undefined || profile === undefined) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#3b82f6" />
-      </View>
-    );
+    return <LoadingIndicator />;
   }
 
   return (
@@ -73,14 +70,5 @@ const RootLayout = () => {
     </ConvexAuthProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-});
 
 export default RootLayout;
