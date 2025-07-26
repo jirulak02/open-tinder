@@ -9,9 +9,9 @@ import { DARK_GRAY, styles } from "@/styles";
 import { api } from "@convex/_generated/api";
 
 const MatchesScreen = () => {
-  const profiles = useQuery(api.profiles.getAllProfiles);
+  const matches = useQuery(api.matches.getMatches);
 
-  if (!profiles) {
+  if (!matches) {
     return <LoadingIndicator />;
   }
 
@@ -26,15 +26,15 @@ const MatchesScreen = () => {
         </View>
         <FlatList
           numColumns={1}
-          data={profiles}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
+          data={matches}
+          keyExtractor={(match) => match._id}
+          renderItem={({ item: match }) => (
             <TouchableOpacity>
               <CardItem
-                image={item.imageUrl}
-                name={item.name}
-                age={item.age}
-                description={item.description}
+                image={match.matchedProfile.imageUrl}
+                name={match.matchedProfile.name}
+                age={match.matchedProfile.age}
+                description={match.matchedProfile.description}
                 hasVariant
               />
             </TouchableOpacity>

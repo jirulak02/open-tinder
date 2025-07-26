@@ -30,6 +30,28 @@ export const getCurrentUserProfile = query({
   },
 });
 
+export const getPotentialMatches = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const profiles = await ctx.db.query("profiles").collect();
+    const profilesWithoutCurrentUser = profiles.filter((p) => p.userId !== userId);
+
+    const mySwipes = await ctx.db
+      .query("swipes")
+      .withIndex("by_swiper", (q) => q.eq("swiperId", userId))
+      .collect();
+    const swipedUserIds = new Set(mySwipes.map((s) => s.swipedId));
+
+    return profilesWithoutCurrentUser.filter((profile) => !swipedUserIds.has(profile.userId));
+  },
+});
+
 export const createProfile = mutation({
   args: {
     name: v.string(),

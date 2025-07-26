@@ -15,8 +15,10 @@ import type {
 } from "convex/server";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
+import type * as matches from "../matches.js";
 import type * as profiles from "../profiles.js";
 import type * as router from "../router.js";
+import type * as swipes from "../swipes.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -29,8 +31,10 @@ import type * as router from "../router.js";
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
+  matches: typeof matches;
   profiles: typeof profiles;
   router: typeof router;
+  swipes: typeof swipes;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,
