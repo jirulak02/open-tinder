@@ -1,4 +1,5 @@
 import { useQuery } from "convex/react";
+import { Link } from "expo-router";
 import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
@@ -29,15 +30,25 @@ const MatchesScreen = () => {
           data={matches}
           keyExtractor={(match) => match._id}
           renderItem={({ item: match }) => (
-            <TouchableOpacity>
-              <CardItem
-                image={match.matchedProfile.imageUrl}
-                name={match.matchedProfile.name}
-                age={match.matchedProfile.age}
-                description={match.matchedProfile.description}
-                hasVariant
-              />
-            </TouchableOpacity>
+            <Link
+              href={{
+                pathname: "/(tabs)/matches/[userId]",
+                params: {
+                  userId: match.matchedProfile.userId,
+                },
+              }}
+              asChild
+            >
+              <TouchableOpacity>
+                <CardItem
+                  image={match.matchedProfile.imageUrl}
+                  name={match.matchedProfile.name}
+                  age={match.matchedProfile.age}
+                  description={match.matchedProfile.description}
+                  hasVariant
+                />
+              </TouchableOpacity>
+            </Link>
           )}
         />
       </View>

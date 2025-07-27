@@ -41,6 +41,9 @@ const TabLayout = () => {
         name="matches"
         options={{
           title: "Matches",
+          href: {
+            pathname: "/(tabs)/matches",
+          },
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} iconName="heart" text="Matches" />
           ),
@@ -50,6 +53,9 @@ const TabLayout = () => {
         name="chats"
         options={{
           title: "Chats",
+          href: {
+            pathname: "/(tabs)/chats",
+          },
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} iconName="chatbubble" text="Chats" />
           ),

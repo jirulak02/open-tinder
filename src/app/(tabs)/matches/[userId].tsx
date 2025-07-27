@@ -1,28 +1,22 @@
 import { useQuery } from "convex/react";
-import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { Image, ImageBackground, ScrollView, Text, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
 import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { SignOutButton } from "@/features/auth/components/SignOutButton";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
-import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
-import { DARK_GRAY, PRIMARY_COLOR, WHITE, styles } from "@/styles";
+import { DARK_GRAY, PRIMARY_COLOR, styles } from "@/styles";
 import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 
-const ProfileScreen = () => {
-  const profile = useQuery(api.profiles.getCurrentUserProfile);
+const MatchProfileScreen = () => {
+  const { userId } = useLocalSearchParams<{ userId: Id<"users"> }>();
 
-  if (profile === undefined) {
-    return <LoadingIndicator />;
-  }
+  const profile = useQuery(api.profiles.getProfileById, { userId });
 
   if (!profile) {
-    return (
-      <ImageBackground source={IMAGE_BG} style={styles.bg}>
-        <ProfileSetup />
-      </ImageBackground>
-    );
+    return <LoadingIndicator />;
   }
 
   return (
@@ -30,22 +24,12 @@ const ProfileScreen = () => {
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.containerProfile}>
           <View style={styles.top}>
-            <Text style={styles.title}>Profile</Text>
-            <SignOutButton />
+            <Text style={styles.title}>{profile.name}</Text>
           </View>
           <View style={{ alignItems: "center", marginTop: 20 }}>
             <Image source={{ uri: profile.imageUrl }} style={styles.photo} resizeMode="cover" />
           </View>
           <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
-          <View style={styles.actionsProfile}>
-            <TouchableOpacity style={styles.circledButton}>
-              <Icon name="pencil" size={20} color={WHITE} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.roundedButton}>
-              <Icon name="cog" size={15} color={WHITE} />
-              <Text style={styles.textButton}>Settings</Text>
-            </TouchableOpacity>
-          </View>
           <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
             <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
               Profile Information
@@ -69,4 +53,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default MatchProfileScreen;

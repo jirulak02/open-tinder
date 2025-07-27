@@ -30,6 +30,24 @@ export const getCurrentUserProfile = query({
   },
 });
 
+export const getProfileById = query({
+  args: {
+    userId: v.id("users"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    return await ctx.db
+      .query("profiles")
+      .withIndex("by_user", (q) => q.eq("userId", args.userId))
+      .unique();
+  },
+});
+
 export const getPotentialMatches = query({
   args: {},
   handler: async (ctx) => {

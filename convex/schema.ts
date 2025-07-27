@@ -18,7 +18,6 @@ const applicationTables = {
     isLike: v.boolean(),
   })
     .index("by_swiper", ["swiperId"])
-    .index("by_swiped", ["swipedId"])
     .index("by_swiper_and_swiped", ["swiperId", "swipedId"]),
 
   matches: defineTable({
