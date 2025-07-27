@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 
-import { Icon } from "./Icon";
+import { Icon } from "../../../components/Icon";
 import { WHITE, styles } from "@/styles";
 
 type Props = {

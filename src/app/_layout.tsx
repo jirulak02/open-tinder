@@ -7,7 +7,7 @@ import { Platform } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignIn } from "@/features/auth/components/SignIn";
-import { ProfileSetup } from "@/features/profile/components/ProfileSetup";
+import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
 import { ConvexAuthProvider, TokenStorage } from "@convex-dev/auth/react";
 import { api } from "@convex/_generated/api";
 

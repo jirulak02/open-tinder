@@ -7,7 +7,7 @@ type Props = {
   name: string;
 };
 
-export const Message = ({ image, name }: Props) => (
+export const ChatItem = ({ image, name }: Props) => (
   <View style={styles.containerMessage}>
     <Image source={{ uri: image }} style={styles.avatar} />
     <View>

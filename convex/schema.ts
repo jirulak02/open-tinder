@@ -28,6 +28,13 @@ const applicationTables = {
   })
     .index("by_user1", ["user1Id"])
     .index("by_user2", ["user2Id"]),
+
+  messages: defineTable({
+    matchId: v.id("matches"),
+    senderId: v.id("users"),
+    content: v.string(),
+    sentAt: v.number(),
+  }).index("by_match", ["matchId"]),
 };
 
 export default defineSchema({

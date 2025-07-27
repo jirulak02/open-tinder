@@ -1,17 +1,18 @@
 import { useQuery } from "convex/react";
+import { Link } from "expo-router";
 import { FlatList, ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
 import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { Message } from "@/components/Message";
+import { ChatItem } from "@/features/chats/components/ChatItem";
 import { DARK_GRAY, styles } from "@/styles";
 import { api } from "@convex/_generated/api";
 
-const MessagesScreen = () => {
-  const profiles = useQuery(api.profiles.getAllProfiles);
+const ChatsScreen = () => {
+  const matches = useQuery(api.matches.getMatches);
 
-  if (!profiles) {
+  if (!matches) {
     return <LoadingIndicator />;
   }
 
@@ -25,12 +26,20 @@ const MessagesScreen = () => {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={profiles}
+          data={matches}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <TouchableOpacity>
-              <Message image={item.imageUrl} name={item.name} />
-            </TouchableOpacity>
+          renderItem={({ item: match }) => (
+            <Link
+              href={{
+                pathname: "/(tabs)/chats/[matchId]",
+                params: { matchId: match._id },
+              }}
+              asChild
+            >
+              <TouchableOpacity>
+                <ChatItem image={match.matchedProfile.imageUrl} name={match.matchedProfile.name} />
+              </TouchableOpacity>
+            </Link>
           )}
         />
       </View>
@@ -38,4 +47,4 @@ const MessagesScreen = () => {
   );
 };
 
-export default MessagesScreen;
+export default ChatsScreen;

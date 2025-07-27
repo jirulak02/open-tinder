@@ -16,6 +16,7 @@ import type {
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as matches from "../matches.js";
+import type * as messages from "../messages.js";
 import type * as profiles from "../profiles.js";
 import type * as router from "../router.js";
 import type * as swipes from "../swipes.js";
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   matches: typeof matches;
+  messages: typeof messages;
   profiles: typeof profiles;
   router: typeof router;
   swipes: typeof swipes;

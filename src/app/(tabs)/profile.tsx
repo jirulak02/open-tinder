@@ -4,9 +4,9 @@ import { Image, ImageBackground, ScrollView, Text, TouchableOpacity, View } from
 import IMAGE_BG from "@/assets/images/bg.png";
 import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { ProfileItem } from "@/components/ProfileItem";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
-import { ProfileSetup } from "@/features/profile/components/ProfileSetup";
+import { ProfileItem } from "@/features/profiles/components/ProfileItem";
+import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
 import { DARK_GRAY, PRIMARY_COLOR, WHITE, styles } from "@/styles";
 import { api } from "@convex/_generated/api";
 

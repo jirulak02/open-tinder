@@ -47,11 +47,11 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="messages"
+        name="chats"
         options={{
-          title: "Chat",
+          title: "Chats",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="chatbubble" text="Chat" />
+            <TabBarIcon focused={focused} iconName="chatbubble" text="Chats" />
           ),
         }}
       />
