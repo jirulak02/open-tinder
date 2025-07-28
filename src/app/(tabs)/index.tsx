@@ -8,7 +8,7 @@ import { CardItem } from "@/components/CardItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { styles } from "@/styles";
 import { api } from "@convex/_generated/api";
-import { Doc } from "@convex/_generated/dataModel";
+import { Id } from "@convex/_generated/dataModel";
 
 const HomeScreen = () => {
   const potentialMatches = useQuery(api.profiles.getPotentialMatches);
@@ -18,15 +18,9 @@ const HomeScreen = () => {
 
   void swiper;
 
-  const handleSwipe = async ({
-    profile,
-    isLike,
-  }: {
-    profile: Doc<"profiles">;
-    isLike: boolean;
-  }) => {
+  const handleSwipe = async ({ userId, isLike }: { userId: Id<"users">; isLike: boolean }) => {
     const result = await swipeUser({
-      swipedUserId: profile.userId,
+      swipedUserId: userId,
       isLike,
     });
 
@@ -51,8 +45,12 @@ const HomeScreen = () => {
           {potentialMatches.map((profile) => (
             <Card
               key={profile._id}
-              onSwipedLeft={async () => await handleSwipe({ profile, isLike: false })}
-              onSwipedRight={async () => await handleSwipe({ profile, isLike: true })}
+              onSwipedLeft={async () =>
+                await handleSwipe({ userId: profile.userId, isLike: false })
+              }
+              onSwipedRight={async () =>
+                await handleSwipe({ userId: profile.userId, isLike: true })
+              }
             >
               <CardItem
                 hasActions
