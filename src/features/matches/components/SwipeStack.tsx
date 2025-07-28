@@ -43,7 +43,6 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
           onSwipedRight={async () => await handleSwipe({ userId: profile.userId, isLike: true })}
         >
           <CardItem
-            hasActions
             name={profile.name}
             age={profile.age}
             description={profile.description}

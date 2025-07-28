@@ -1,7 +1,7 @@
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { Icon } from "./Icon";
-import { COLOR_GRAY, COLOR_PINK, globalStyles } from "@/styles";
+import { COLORS } from "@/styles";
 
 type Props = {
   focused: boolean;
@@ -10,12 +10,23 @@ type Props = {
 };
 
 export const TabBarIcon = ({ focused, iconName, text }: Props) => {
-  const iconFocused = focused ? COLOR_PINK : COLOR_GRAY;
+  const iconFocused = focused ? COLORS.pink : COLORS.gray;
 
   return (
-    <View style={globalStyles.iconMenu}>
+    <View style={styles.iconMenu}>
       <Icon name={iconName} size={16} color={iconFocused} />
-      <Text style={[globalStyles.tabButtonText, { color: iconFocused }]}>{text}</Text>
+      <Text style={[styles.tabButtonText, { color: iconFocused }]}>{text}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  tabButtonText: {
+    textTransform: "uppercase",
+    fontSize: 12,
+  },
+  iconMenu: {
+    alignItems: "center",
+    minWidth: 60,
+  },
+});

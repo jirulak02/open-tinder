@@ -1,18 +1,17 @@
-import { Dimensions, Image, Text, View } from "react-native";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 import { Icon } from "./Icon";
-import { COLOR_WHITE, globalStyles } from "@/styles";
+import { COLORS } from "@/styles";
 
 type Props = {
   name: string;
   age: number;
   description: string;
   image: string;
-  hasActions?: boolean;
   hasVariant?: boolean;
 };
 
-export const CardItem = ({ age, description, hasActions, hasVariant, image, name }: Props) => {
+export const CardItem = ({ age, description, hasVariant, image, name }: Props) => {
   const fullWidth = Dimensions.get("window").width;
   const imageStyle = [
     {
@@ -32,15 +31,15 @@ export const CardItem = ({ age, description, hasActions, hasVariant, image, name
   ];
 
   return (
-    <View style={globalStyles.containerCardItem}>
+    <View style={styles.containerCardItem}>
       {/* IMAGE */}
       <Image source={{ uri: image }} style={imageStyle} />
 
       {/* MATCHES */}
       {age && (
-        <View style={globalStyles.matchesCardItem}>
-          <Text style={globalStyles.matchesTextCardItem}>
-            <Icon name="heart" color={COLOR_WHITE} size={13} /> {age}
+        <View style={styles.matchesCardItem}>
+          <Text style={styles.matchesTextCardItem}>
+            <Icon name="heart" color={COLORS.white} size={13} /> {age}
           </Text>
         </View>
       )}
@@ -49,7 +48,35 @@ export const CardItem = ({ age, description, hasActions, hasVariant, image, name
       <Text style={nameStyle}>{name}</Text>
 
       {/* DESCRIPTION */}
-      {description && <Text style={globalStyles.descriptionCardItem}>{description}</Text>}
+      {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  containerCardItem: {
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    alignItems: "center",
+    margin: 10,
+    elevation: 1,
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    shadowColor: COLORS.black,
+    shadowOffset: { height: 0, width: 0 },
+  },
+  matchesCardItem: {
+    marginTop: -35,
+    backgroundColor: COLORS.pink,
+    paddingVertical: 7,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+  },
+  matchesTextCardItem: {
+    color: COLORS.white,
+  },
+  descriptionCardItem: {
+    color: COLORS.gray,
+    textAlign: "center",
+  },
+});
