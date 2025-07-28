@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ai-tinder",
-    "slug": "ai-tinder",
+    "name": "open-tinder",
+    "slug": "open-tinder",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
-    "scheme": "aitinder",
+    "scheme": "opentinder",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
