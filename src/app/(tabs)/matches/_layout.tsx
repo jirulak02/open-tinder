@@ -4,7 +4,7 @@ const MatchesLayout = () => {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" options={{ title: "Matches" }} />
-      <Stack.Screen name="[userId]" getId={({ params }) => params?.userId} />
+      <Stack.Screen name="[userId]" />
     </Stack>
   );
 };
