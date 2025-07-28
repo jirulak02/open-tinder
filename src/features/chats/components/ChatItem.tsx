@@ -1,6 +1,6 @@
 import { Image, Text, View } from "react-native";
 
-import { styles } from "@/styles";
+import { globalStyles } from "@/styles";
 
 type Props = {
   image: string;
@@ -8,8 +8,8 @@ type Props = {
 };
 
 export const ChatItem = ({ image, name }: Props) => (
-  <View style={styles.containerMessage}>
-    <Image source={{ uri: image }} style={styles.avatar} />
+  <View style={globalStyles.containerMessage}>
+    <Image source={{ uri: image }} style={globalStyles.avatar} />
     <View>
       <Text>{name}</Text>
     </View>

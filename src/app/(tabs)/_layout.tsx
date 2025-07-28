@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
 
 import { TabBarIcon } from "@/components/TabBarIcon";
-import { BLACK, DARK_GRAY, PRIMARY_COLOR, WHITE } from "@/styles";
+import { COLOR_BLACK, COLOR_GRAY, COLOR_PINK, COLOR_WHITE } from "@/styles";
 
 const TabLayout = () => {
   return (
@@ -10,20 +10,20 @@ const TabLayout = () => {
         headerShown: false,
         animation: "none",
         tabBarShowLabel: false,
-        tabBarActiveTintColor: PRIMARY_COLOR,
-        tabBarInactiveTintColor: DARK_GRAY,
+        tabBarActiveTintColor: COLOR_PINK,
+        tabBarInactiveTintColor: COLOR_GRAY,
         tabBarLabelStyle: {
           fontSize: 14,
           textTransform: "uppercase",
           paddingTop: 10,
         },
         tabBarStyle: {
-          backgroundColor: WHITE,
+          backgroundColor: COLOR_WHITE,
           borderTopWidth: 0,
           marginBottom: 0,
           shadowOpacity: 0.05,
           shadowRadius: 10,
-          shadowColor: BLACK,
+          shadowColor: COLOR_BLACK,
           shadowOffset: { height: 0, width: 0 },
         },
       }}

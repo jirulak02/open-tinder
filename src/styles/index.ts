@@ -1,48 +1,46 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-export const PRIMARY_COLOR = "#7444C0";
-export const SECONDARY_COLOR = "#5636B8";
-export const WHITE = "#FFFFFF";
-export const GRAY = "#757E90";
-export const DARK_GRAY = "#363636";
-export const BLACK = "#000000";
-
-export const ONLINE_STATUS = "#46A575";
-export const OFFLINE_STATUS = "#D04949";
-
-export const STAR_ACTIONS = "#FFA200";
-export const LIKE_ACTIONS = "#B644B2";
-export const DISLIKE_ACTIONS = "#363636";
-export const FLASH_ACTIONS = "#5028D7";
+export const COLOR_PINK = "#fd2b7b";
+export const COLOR_ORANGE = "#ff7158";
+export const COLOR_WHITE = "#ffffff";
+export const COLOR_GRAY = "#424242";
+export const COLOR_BLACK = "#000000";
 
 export const DIMENSION_WIDTH = Dimensions.get("window").width;
 export const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
-export const styles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    width: DIMENSION_WIDTH,
+    height: DIMENSION_HEIGHT,
+    backgroundColor: "#ffffff",
+  },
+
   // COMPONENT - CARD ITEM
   containerCardItem: {
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     borderRadius: 8,
     alignItems: "center",
     margin: 10,
     elevation: 1,
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    shadowColor: BLACK,
+    shadowColor: COLOR_BLACK,
     shadowOffset: { height: 0, width: 0 },
   },
   matchesCardItem: {
     marginTop: -35,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: COLOR_PINK,
     paddingVertical: 7,
     paddingHorizontal: 20,
     borderRadius: 20,
   },
   matchesTextCardItem: {
-    color: WHITE,
+    color: COLOR_WHITE,
   },
   descriptionCardItem: {
-    color: GRAY,
+    color: COLOR_GRAY,
     textAlign: "center",
   },
   status: {
@@ -51,20 +49,20 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   statusText: {
-    color: GRAY,
+    color: COLOR_GRAY,
     fontSize: 12,
   },
   online: {
     width: 6,
     height: 6,
-    backgroundColor: ONLINE_STATUS,
+    backgroundColor: COLOR_PINK,
     borderRadius: 3,
     marginRight: 4,
   },
   offline: {
     width: 6,
     height: 6,
-    backgroundColor: OFFLINE_STATUS,
+    backgroundColor: COLOR_ORANGE,
     borderRadius: 3,
     marginRight: 4,
   },
@@ -77,63 +75,63 @@ export const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     marginHorizontal: 7,
     alignItems: "center",
     justifyContent: "center",
     elevation: 1,
     shadowOpacity: 0.15,
     shadowRadius: 20,
-    shadowColor: DARK_GRAY,
+    shadowColor: COLOR_GRAY,
     shadowOffset: { height: 10, width: 0 },
   },
   miniButton: {
     width: 40,
     height: 40,
     borderRadius: 30,
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     marginHorizontal: 7,
     alignItems: "center",
     justifyContent: "center",
     elevation: 1,
     shadowOpacity: 0.15,
     shadowRadius: 20,
-    shadowColor: DARK_GRAY,
+    shadowColor: COLOR_GRAY,
     shadowOffset: { height: 10, width: 0 },
   },
 
   // COMPONENT - CITY
   city: {
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     padding: 10,
     borderRadius: 20,
     width: 100,
     elevation: 1,
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    shadowColor: BLACK,
+    shadowColor: COLOR_BLACK,
     shadowOffset: { height: 0, width: 0 },
   },
   cityText: {
-    color: DARK_GRAY,
+    color: COLOR_GRAY,
     fontSize: 13,
     textAlign: "center",
   },
 
   // COMPONENT - FILTERS
   filters: {
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     padding: 10,
     borderRadius: 20,
     width: 90,
     elevation: 1,
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    shadowColor: BLACK,
+    shadowColor: COLOR_BLACK,
     shadowOffset: { height: 0, width: 0 },
   },
   filtersText: {
-    color: DARK_GRAY,
+    color: COLOR_GRAY,
     fontSize: 13,
     textAlign: "center",
   },
@@ -157,7 +155,7 @@ export const styles = StyleSheet.create({
 
   // COMPONENT - PROFILE ITEM
   containerProfileItem: {
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
     paddingHorizontal: 10,
     paddingBottom: 25,
     margin: 20,
@@ -166,31 +164,31 @@ export const styles = StyleSheet.create({
     elevation: 1,
     shadowOpacity: 0.05,
     shadowRadius: 10,
-    shadowColor: BLACK,
+    shadowColor: COLOR_BLACK,
     shadowOffset: { height: 0, width: 0 },
   },
   matchesProfileItem: {
     width: 135,
     marginTop: -15,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: COLOR_PINK,
     paddingVertical: 7,
     paddingHorizontal: 20,
     borderRadius: 20,
     alignSelf: "center",
   },
   matchesTextProfileItem: {
-    color: WHITE,
+    color: COLOR_WHITE,
     textAlign: "center",
   },
   name: {
     paddingTop: 25,
     paddingBottom: 5,
-    color: DARK_GRAY,
+    color: COLOR_GRAY,
     fontSize: 15,
     textAlign: "center",
   },
   descriptionProfileItem: {
-    color: GRAY,
+    color: COLOR_GRAY,
     textAlign: "center",
     paddingBottom: 20,
     fontSize: 13,
@@ -202,21 +200,16 @@ export const styles = StyleSheet.create({
   },
   iconProfile: {
     fontSize: 12,
-    color: DARK_GRAY,
+    color: COLOR_GRAY,
     paddingHorizontal: 10,
   },
   infoContent: {
-    color: GRAY,
+    color: COLOR_GRAY,
     fontSize: 13,
   },
 
   // CONTAINER - GENERAL
-  bg: {
-    flex: 1,
-    resizeMode: "cover",
-    width: DIMENSION_WIDTH,
-    height: DIMENSION_HEIGHT,
-  },
+
   top: {
     paddingTop: 50,
     marginHorizontal: 10,
@@ -224,13 +217,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  title: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY },
-
-  // CONTAINER - HOME
-  containerHome: {
-    marginHorizontal: 10,
-    marginTop: 100,
-  },
+  title: { paddingBottom: 10, fontSize: 22, color: COLOR_GRAY },
 
   // CONTAINER - MATCHES
   containerMatches: {
@@ -265,14 +252,14 @@ export const styles = StyleSheet.create({
   },
   textButton: {
     fontSize: 15,
-    color: WHITE,
+    color: COLOR_WHITE,
     paddingLeft: 5,
   },
   circledButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: COLOR_PINK,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 10,
@@ -284,7 +271,7 @@ export const styles = StyleSheet.create({
     marginLeft: 10,
     height: 50,
     borderRadius: 25,
-    backgroundColor: SECONDARY_COLOR,
+    backgroundColor: COLOR_ORANGE,
     paddingHorizontal: 20,
   },
 

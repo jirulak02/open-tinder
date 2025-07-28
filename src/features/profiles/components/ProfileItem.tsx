@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 
 import { Icon } from "../../../components/Icon";
-import { WHITE, styles } from "@/styles";
+import { COLOR_WHITE, globalStyles } from "@/styles";
 
 type Props = {
   name: string;
@@ -10,15 +10,15 @@ type Props = {
 };
 
 export const ProfileItem = ({ name, age, description }: Props) => (
-  <View style={styles.containerProfileItem}>
-    <View style={styles.matchesProfileItem}>
-      <Text style={styles.matchesTextProfileItem}>
-        <Icon name="heart" size={13} color={WHITE} /> {age}
+  <View style={globalStyles.containerProfileItem}>
+    <View style={globalStyles.matchesProfileItem}>
+      <Text style={globalStyles.matchesTextProfileItem}>
+        <Icon name="heart" size={13} color={COLOR_WHITE} /> {age}
       </Text>
     </View>
-    <Text style={styles.name}>
+    <Text style={globalStyles.name}>
       {name} - {age}
     </Text>
-    <Text style={styles.descriptionProfileItem}>{description}</Text>
+    <Text style={globalStyles.descriptionProfileItem}>{description}</Text>
   </View>
 );

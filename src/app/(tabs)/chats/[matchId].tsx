@@ -14,7 +14,7 @@ import {
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { MessageBubble } from "@/features/chats/components/MessageBubble";
-import { GRAY, PRIMARY_COLOR, WHITE } from "@/styles";
+import { COLOR_GRAY, COLOR_PINK, COLOR_WHITE } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
@@ -75,7 +75,7 @@ const ChatScreen = () => {
           value={newMessage}
           onChangeText={setNewMessage}
           placeholder="Type a message..."
-          placeholderTextColor={GRAY}
+          placeholderTextColor={COLOR_GRAY}
           multiline
           maxLength={1000}
           onSubmitEditing={handleSendMessage}
@@ -89,7 +89,7 @@ const ChatScreen = () => {
           onPress={handleSendMessage}
           disabled={!newMessage.trim()}
         >
-          <Ionicons name="send" size={20} color={newMessage.trim() ? WHITE : GRAY} />
+          <Ionicons name="send" size={20} color={newMessage.trim() ? COLOR_WHITE : COLOR_GRAY} />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -99,7 +99,7 @@ const ChatScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
   },
   messagesList: {
     flex: 1,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopWidth: 1,
     borderTopColor: "#E5E5E5",
-    backgroundColor: WHITE,
+    backgroundColor: COLOR_WHITE,
   },
   textInput: {
     flex: 1,
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   sendButtonActive: {
-    backgroundColor: PRIMARY_COLOR,
+    backgroundColor: COLOR_PINK,
   },
   sendButtonInactive: {
     backgroundColor: "#E5E5E5",

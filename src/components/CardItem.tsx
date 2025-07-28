@@ -1,14 +1,7 @@
-import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, Text, View } from "react-native";
 
 import { Icon } from "./Icon";
-import {
-  DISLIKE_ACTIONS,
-  FLASH_ACTIONS,
-  LIKE_ACTIONS,
-  STAR_ACTIONS,
-  WHITE,
-  styles,
-} from "@/styles";
+import { COLOR_WHITE, globalStyles } from "@/styles";
 
 type Props = {
   name: string;
@@ -39,15 +32,15 @@ export const CardItem = ({ age, description, hasActions, hasVariant, image, name
   ];
 
   return (
-    <View style={styles.containerCardItem}>
+    <View style={globalStyles.containerCardItem}>
       {/* IMAGE */}
       <Image source={{ uri: image }} style={imageStyle} />
 
       {/* MATCHES */}
       {age && (
-        <View style={styles.matchesCardItem}>
-          <Text style={styles.matchesTextCardItem}>
-            <Icon name="heart" color={WHITE} size={13} /> {age}
+        <View style={globalStyles.matchesCardItem}>
+          <Text style={globalStyles.matchesTextCardItem}>
+            <Icon name="heart" color={COLOR_WHITE} size={13} /> {age}
           </Text>
         </View>
       )}
@@ -56,28 +49,7 @@ export const CardItem = ({ age, description, hasActions, hasVariant, image, name
       <Text style={nameStyle}>{name}</Text>
 
       {/* DESCRIPTION */}
-      {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
-
-      {/* ACTIONS */}
-      {hasActions && (
-        <View style={styles.actionsCardItem}>
-          <TouchableOpacity style={styles.miniButton}>
-            <Icon name="star" color={STAR_ACTIONS} size={14} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Icon name="heart" color={LIKE_ACTIONS} size={25} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button}>
-            <Icon name="close" color={DISLIKE_ACTIONS} size={25} />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.miniButton}>
-            <Icon name="flash" color={FLASH_ACTIONS} size={14} />
-          </TouchableOpacity>
-        </View>
-      )}
+      {description && <Text style={globalStyles.descriptionCardItem}>{description}</Text>}
     </View>
   );
 };
