@@ -1,7 +1,7 @@
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
-import { Icon } from "./Icon";
 import { COLORS } from "@/styles";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   name: string;
@@ -39,7 +39,7 @@ export const CardItem = ({ age, description, hasVariant, image, name }: Props) =
       {age && (
         <View style={styles.matchesCardItem}>
           <Text style={styles.matchesTextCardItem}>
-            <Icon name="heart" color={COLORS.white} size={13} /> {age}
+            <Ionicons name="heart" color={COLORS.white} size={13} /> {age}
           </Text>
         </View>
       )}

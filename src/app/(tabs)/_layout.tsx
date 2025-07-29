@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 
 import { TabBarIcon } from "@/components/TabBarIcon";
 import { COLORS } from "@/styles";
+import Fontisto from "@expo/vector-icons/Fontisto";
 
 const TabLayout = () => {
   return (
@@ -31,9 +32,13 @@ const TabLayout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Explore",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="search" text="Explore" />
+            <TabBarIcon
+              focused={focused}
+              text="Home"
+              icon={({ ...props }) => <Fontisto {...props} name="tinder" />}
+            />
           ),
         }}
       />

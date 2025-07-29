@@ -1,32 +1,58 @@
+import { ReactNode } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { Icon } from "./Icon";
+import { GradientIcon } from "./GradientIcon";
+import { GradientText } from "./GradientText";
 import { COLORS } from "@/styles";
+import { Ionicons } from "@expo/vector-icons";
+
+type IconProps = {
+  color: string;
+  size: number;
+};
 
 type Props = {
   focused: boolean;
-  iconName: any;
   text: string;
+  icon?: ({ color, size }: IconProps) => ReactNode;
+  iconName?: keyof typeof Ionicons.glyphMap;
 };
 
-export const TabBarIcon = ({ focused, iconName, text }: Props) => {
-  const iconFocused = focused ? COLORS.pink : COLORS.gray;
+export const TabBarIcon = ({ focused, iconName, text, icon: PropsIcon }: Props) => {
+  if (focused) {
+    const iconElement = PropsIcon ? (
+      <PropsIcon size={16} color={COLORS.pink} />
+    ) : (
+      <Ionicons name={iconName} size={16} color={COLORS.pink} />
+    );
+
+    return (
+      <View style={styles.iconMenu}>
+        <GradientIcon icon={iconElement} style={{ width: 16, height: 16 }} />
+        <GradientText text={text} textStyle={styles.text} style={{ minWidth: 60, height: 14 }} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.iconMenu}>
-      <Icon name={iconName} size={16} color={iconFocused} />
-      <Text style={[styles.tabButtonText, { color: iconFocused }]}>{text}</Text>
+      {PropsIcon ? (
+        <PropsIcon size={16} color={COLORS.gray} />
+      ) : (
+        <Ionicons name={iconName} size={16} color={COLORS.gray} />
+      )}
+      <Text style={[styles.text, { color: COLORS.gray }]}>{text}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  tabButtonText: {
-    textTransform: "uppercase",
-    fontSize: 12,
-  },
   iconMenu: {
     alignItems: "center",
     minWidth: 60,
+  },
+  text: {
+    textTransform: "uppercase",
+    fontSize: 12,
   },
 });

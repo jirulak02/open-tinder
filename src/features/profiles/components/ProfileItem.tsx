@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { Icon } from "../../../components/Icon";
 import { COLORS } from "@/styles";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   name: string;
@@ -13,7 +13,7 @@ export const ProfileItem = ({ name, age, description }: Props) => (
   <View style={styles.containerProfileItem}>
     <View style={styles.matchesProfileItem}>
       <Text style={styles.matchesTextProfileItem}>
-        <Icon name="heart" size={13} color={COLORS.white} /> {age}
+        <Ionicons name="heart" size={13} color={COLORS.white} /> {age}
       </Text>
     </View>
     <Text style={styles.name}>

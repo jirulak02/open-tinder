@@ -10,13 +10,13 @@ import {
 } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
-import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
 import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
 import { COLORS, DIMENSIONS, globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
+import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
   const profile = useQuery(api.profiles.getCurrentUserProfile);
@@ -47,10 +47,10 @@ const ProfileScreen = () => {
           <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
           <View style={styles.actionsProfile}>
             <TouchableOpacity style={styles.circledButton}>
-              <Icon name="pencil" size={20} color={COLORS.white} />
+              <Ionicons name="pencil" size={20} color={COLORS.white} />
             </TouchableOpacity>
             <TouchableOpacity style={styles.roundedButton}>
-              <Icon name="cog" size={15} color={COLORS.white} />
+              <Ionicons name="cog" size={15} color={COLORS.white} />
               <Text style={styles.textButton}>Settings</Text>
             </TouchableOpacity>
           </View>
@@ -59,15 +59,25 @@ const ProfileScreen = () => {
               Profile Information
             </Text>
             <View style={styles.info}>
-              <Icon name="person" color={COLORS.gray} size={15} style={styles.iconProfile} />
+              <Ionicons
+                name="person"
+                color={COLORS.gray}
+                size={15}
+                style={styles.IoniconsProfile}
+              />
               <Text style={styles.infoContent}>Name: {profile.name}</Text>
             </View>
             <View style={styles.info}>
-              <Icon name="calendar" color={COLORS.gray} size={15} style={styles.iconProfile} />
+              <Ionicons
+                name="calendar"
+                color={COLORS.gray}
+                size={15}
+                style={styles.IoniconsProfile}
+              />
               <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
             </View>
             <View style={styles.info}>
-              <Icon name="heart" color={COLORS.pink} size={15} style={styles.iconProfile} />
+              <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.IoniconsProfile} />
               <Text style={styles.infoContent}>Looking for connections</Text>
             </View>
           </View>
@@ -151,7 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  iconProfile: {
+  IoniconsProfile: {
     fontSize: 12,
     color: COLORS.gray,
     paddingHorizontal: 10,

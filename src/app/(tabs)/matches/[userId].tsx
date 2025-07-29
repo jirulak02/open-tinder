@@ -3,12 +3,12 @@ import { useLocalSearchParams } from "expo-router";
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
-import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
 import { COLORS, DIMENSIONS, globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
+import { Ionicons } from "@expo/vector-icons";
 
 const MatchProfileScreen = () => {
   const { userId } = useLocalSearchParams<{ userId: Id<"users"> }>();
@@ -35,15 +35,15 @@ const MatchProfileScreen = () => {
               Profile Information
             </Text>
             <View style={styles.info}>
-              <Icon name="person" color={COLORS.gray} size={15} style={styles.iconProfile} />
+              <Ionicons name="person" color={COLORS.gray} size={15} style={styles.iconProfile} />
               <Text style={styles.infoContent}>Name: {profile.name}</Text>
             </View>
             <View style={styles.info}>
-              <Icon name="calendar" color={COLORS.gray} size={15} style={styles.iconProfile} />
+              <Ionicons name="calendar" color={COLORS.gray} size={15} style={styles.iconProfile} />
               <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
             </View>
             <View style={styles.info}>
-              <Icon name="heart" color={COLORS.pink} size={15} style={styles.iconProfile} />
+              <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.iconProfile} />
               <Text style={styles.infoContent}>Looking for connections</Text>
             </View>
           </View>

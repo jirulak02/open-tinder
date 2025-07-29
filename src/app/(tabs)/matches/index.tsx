@@ -4,10 +4,10 @@ import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } f
 
 import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
-import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { COLORS, globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
+import { Ionicons } from "@expo/vector-icons";
 
 const MatchesScreen = () => {
   const matches = useQuery(api.matches.getMatches);
@@ -22,7 +22,7 @@ const MatchesScreen = () => {
         <View style={styles.top}>
           <Text style={styles.title}>Matches</Text>
           <TouchableOpacity>
-            <Icon name="ellipsis-vertical" color={COLORS.gray} size={20} />
+            <Ionicons name="ellipsis-vertical" color={COLORS.gray} size={20} />
           </TouchableOpacity>
         </View>
         <FlatList

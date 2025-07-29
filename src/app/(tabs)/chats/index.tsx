@@ -3,11 +3,11 @@ import { Link } from "expo-router";
 import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import IMAGE_BG from "@/assets/images/bg.png";
-import { Icon } from "@/components/Icon";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ChatItem } from "@/features/chats/components/ChatItem";
 import { COLORS, globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
+import { Ionicons } from "@expo/vector-icons";
 
 const ChatsScreen = () => {
   const matches = useQuery(api.matches.getMatches);
@@ -22,7 +22,7 @@ const ChatsScreen = () => {
         <View style={styles.top}>
           <Text style={styles.title}>Chats</Text>
           <TouchableOpacity>
-            <Icon name="ellipsis-vertical" color={COLORS.gray} size={20} />
+            <Ionicons name="ellipsis-vertical" color={COLORS.gray} size={20} />
           </TouchableOpacity>
         </View>
         <FlatList
