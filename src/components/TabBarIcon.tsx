@@ -1,34 +1,26 @@
-import { ReactNode } from "react";
+import { ComponentType } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import { GradientIcon } from "./GradientIcon";
 import { GradientText } from "./GradientText";
 import { COLORS } from "@/styles";
 import { Ionicons } from "@expo/vector-icons";
-
-type IconProps = {
-  color: string;
-  size: number;
-};
+import { IconProps } from "@expo/vector-icons/build/createIconSet";
 
 type Props = {
   focused: boolean;
   text: string;
-  icon?: ({ color, size }: IconProps) => ReactNode;
-  iconName?: keyof typeof Ionicons.glyphMap;
+  iconName: any;
+  icon?: ComponentType<IconProps<any>>;
 };
 
 export const TabBarIcon = ({ focused, iconName, text, icon: PropsIcon }: Props) => {
-  if (focused) {
-    const iconElement = PropsIcon ? (
-      <PropsIcon size={16} color={COLORS.pink} />
-    ) : (
-      <Ionicons name={iconName} size={16} color={COLORS.pink} />
-    );
+  const Icon = PropsIcon ?? Ionicons;
 
+  if (focused) {
     return (
       <View style={styles.iconMenu}>
-        <GradientIcon icon={iconElement} style={{ width: 16, height: 16 }} />
+        <GradientIcon icon={Icon} name={iconName} size={20} />
         <GradientText style={styles.text}>{text}</GradientText>
       </View>
     );
@@ -36,11 +28,7 @@ export const TabBarIcon = ({ focused, iconName, text, icon: PropsIcon }: Props) 
 
   return (
     <View style={styles.iconMenu}>
-      {PropsIcon ? (
-        <PropsIcon size={16} color={COLORS.gray} />
-      ) : (
-        <Ionicons name={iconName} size={16} color={COLORS.gray} />
-      )}
+      <Icon name={iconName} size={20} color={COLORS.gray} />
       <Text style={[styles.text, { color: COLORS.gray }]}>{text}</Text>
     </View>
   );
@@ -50,9 +38,10 @@ const styles = StyleSheet.create({
   iconMenu: {
     alignItems: "center",
     minWidth: 60,
+    gap: 4,
+    marginTop: "auto",
   },
   text: {
-    textTransform: "uppercase",
     fontSize: 12,
   },
 });

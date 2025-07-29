@@ -17,7 +17,7 @@ export const GradientText = ({ style, children, ...rest }: Props) => {
         style={[
           style,
           {
-            backgroundImage: `linear-gradient(135deg, ${COLORS.pink}, ${COLORS.orange})`,
+            backgroundImage: `linear-gradient(45deg, ${COLORS.pink}, ${COLORS.orange})`,
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -40,9 +40,10 @@ export const GradientText = ({ style, children, ...rest }: Props) => {
     >
       <LinearGradient
         colors={[COLORS.pink, COLORS.orange]}
-        start={{ x: 0, y: 0 }}
+        start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 0 }}
       >
+        {/* The gradient needs dimensions, which we can get around with this transparent text */}
         <Text {...rest} style={[style, styles.hiddenText]}>
           {children}
         </Text>
