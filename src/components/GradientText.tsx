@@ -1,50 +1,61 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Platform, StyleProp, Text, TextStyle, View, ViewStyle } from "react-native";
+import { ReactNode } from "react";
+import { Platform, StyleSheet, Text, TextProps, TextStyle } from "react-native";
 
 import { COLORS } from "@/styles";
 import MaskedView from "@react-native-masked-view/masked-view";
 
-type Props = {
-  text: string;
-  textStyle?: StyleProp<TextStyle>;
-  style?: StyleProp<ViewStyle>;
+type Props = TextProps & {
+  children: ReactNode;
 };
 
-export const GradientText = ({ text, textStyle, style }: Props) => {
+export const GradientText = ({ style, children, ...rest }: Props) => {
   if (Platform.OS === "web") {
     return (
       <Text
+        {...rest}
         style={[
-          textStyle,
+          style,
           {
-            background: `linear-gradient(135deg, ${COLORS.pink} 0%, ${COLORS.orange} 100%)`,
+            backgroundImage: `linear-gradient(135deg, ${COLORS.pink}, ${COLORS.orange})`,
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
             color: "transparent",
+            WebkitTextFillColor: "transparent",
           } as TextStyle,
         ]}
       >
-        {text}
+        {children}
       </Text>
     );
   }
 
   return (
     <MaskedView
-      style={style}
       maskElement={
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Text style={[textStyle, { color: "black" }]}>{text}</Text>
-        </View>
+        <Text {...rest} style={[style, styles.maskText]}>
+          {children}
+        </Text>
       }
     >
       <LinearGradient
         colors={[COLORS.pink, COLORS.orange]}
-        start={{ x: 0, y: 1 }}
+        start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        style={{ flex: 1 }}
-      />
+      >
+        <Text {...rest} style={[style, styles.hiddenText]}>
+          {children}
+        </Text>
+      </LinearGradient>
     </MaskedView>
   );
 };
+
+const styles = StyleSheet.create({
+  maskText: {
+    color: COLORS.black,
+  },
+  hiddenText: {
+    opacity: 0,
+  },
+});

@@ -29,7 +29,7 @@ export const TabBarIcon = ({ focused, iconName, text, icon: PropsIcon }: Props) 
     return (
       <View style={styles.iconMenu}>
         <GradientIcon icon={iconElement} style={{ width: 16, height: 16 }} />
-        <GradientText text={text} textStyle={styles.text} style={{ minWidth: 60, height: 14 }} />
+        <GradientText style={styles.text}>{text}</GradientText>
       </View>
     );
   }
