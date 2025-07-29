@@ -14,7 +14,7 @@ import {
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { MessageBubble } from "@/features/chats/components/MessageBubble";
-import { COLORS } from "@/styles";
+import { COLORS, globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
@@ -51,48 +51,54 @@ const ChatScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={100}
-    >
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={({ item }) => (
-          <MessageBubble message={item} isCurrentUser={item.senderId === currentUser._id} />
-        )}
-        keyExtractor={(item) => item._id}
-        style={styles.messagesList}
-        contentContainerStyle={styles.messagesContent}
-        showsVerticalScrollIndicator={false}
-        onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
-      />
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          value={newMessage}
-          onChangeText={setNewMessage}
-          placeholder="Type a message..."
-          placeholderTextColor={COLORS.gray}
-          multiline
-          maxLength={1000}
-          onSubmitEditing={handleSendMessage}
-          blurOnSubmit={false}
+    <View style={globalStyles.bg}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={100}
+      >
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={({ item }) => (
+            <MessageBubble message={item} isCurrentUser={item.senderId === currentUser._id} />
+          )}
+          keyExtractor={(item) => item._id}
+          style={styles.messagesList}
+          contentContainerStyle={styles.messagesContent}
+          showsVerticalScrollIndicator={false}
+          onContentSizeChange={() => flatListRef.current?.scrollToEnd({ animated: true })}
         />
-        <TouchableOpacity
-          style={[
-            styles.sendButton,
-            newMessage.trim() ? styles.sendButtonActive : styles.sendButtonInactive,
-          ]}
-          onPress={handleSendMessage}
-          disabled={!newMessage.trim()}
-        >
-          <Ionicons name="send" size={20} color={newMessage.trim() ? COLORS.white : COLORS.gray} />
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            value={newMessage}
+            onChangeText={setNewMessage}
+            placeholder="Type a message..."
+            placeholderTextColor={COLORS.gray}
+            multiline
+            maxLength={1000}
+            onSubmitEditing={handleSendMessage}
+            blurOnSubmit={false}
+          />
+          <TouchableOpacity
+            style={[
+              styles.sendButton,
+              newMessage.trim() ? styles.sendButtonActive : styles.sendButtonInactive,
+            ]}
+            onPress={handleSendMessage}
+            disabled={!newMessage.trim()}
+          >
+            <Ionicons
+              name="send"
+              size={20}
+              color={newMessage.trim() ? COLORS.white : COLORS.gray}
+            />
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
   );
 };
 

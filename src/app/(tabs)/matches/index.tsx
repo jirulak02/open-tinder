@@ -1,8 +1,7 @@
 import { useQuery } from "convex/react";
 import { Link } from "expo-router";
-import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import IMAGE_BG from "@/assets/images/bg.png";
 import { CardItem } from "@/components/CardItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { COLORS, globalStyles } from "@/styles";
@@ -17,7 +16,7 @@ const MatchesScreen = () => {
   }
 
   return (
-    <ImageBackground source={IMAGE_BG} style={globalStyles.bg}>
+    <View style={globalStyles.bg}>
       <View style={styles.containerMatches}>
         <View style={styles.top}>
           <Text style={styles.title}>Matches</Text>
@@ -52,7 +51,7 @@ const MatchesScreen = () => {
           )}
         />
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 

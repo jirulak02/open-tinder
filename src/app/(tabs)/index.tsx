@@ -14,8 +14,10 @@ const HomeScreen = () => {
   }
 
   return (
-    <View style={[globalStyles.bg, styles.container]}>
-      <SwipeStack potentialMatches={potentialMatches} />
+    <View style={globalStyles.bg}>
+      <View style={styles.container}>
+        <SwipeStack potentialMatches={potentialMatches} />
+      </View>
     </View>
   );
 };

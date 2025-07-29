@@ -1,17 +1,21 @@
 import { Link, Stack } from "expo-router";
 import { Text, View } from "react-native";
 
+import { globalStyles } from "@/styles";
+
 const NotFoundScreen = () => {
   return (
     <>
       <Stack.Screen options={{ title: "Oops!" }} />
       <View
-        style={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 20,
-        }}
+        style={[
+          globalStyles.bg,
+          {
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+          },
+        ]}
       >
         <Text
           style={{

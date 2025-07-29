@@ -1,8 +1,7 @@
 import { useQuery } from "convex/react";
 import { useLocalSearchParams } from "expo-router";
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import IMAGE_BG from "@/assets/images/bg.png";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
 import { COLORS, DIMENSIONS, globalStyles } from "@/styles";
@@ -20,7 +19,7 @@ const MatchProfileScreen = () => {
   }
 
   return (
-    <ImageBackground source={IMAGE_BG} style={globalStyles.bg}>
+    <View style={globalStyles.bg}>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.containerProfile}>
           <View style={styles.top}>
@@ -49,7 +48,7 @@ const MatchProfileScreen = () => {
           </View>
         </View>
       </ScrollView>
-    </ImageBackground>
+    </View>
   );
 };
 

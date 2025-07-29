@@ -1,6 +1,6 @@
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-import { COLORS } from "@/styles";
+import { COLORS, DIMENSIONS } from "@/styles";
 import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
@@ -12,11 +12,10 @@ type Props = {
 };
 
 export const CardItem = ({ age, description, hasVariant, image, name }: Props) => {
-  const fullWidth = Dimensions.get("window").width;
   const imageStyle = [
     {
       borderRadius: 8,
-      width: hasVariant ? fullWidth / 2 - 30 : fullWidth - 80,
+      width: hasVariant ? DIMENSIONS.width / 2 - 30 : DIMENSIONS.width - 80,
       height: hasVariant ? 170 : 350,
       margin: hasVariant ? 0 : 20,
     },
@@ -25,17 +24,14 @@ export const CardItem = ({ age, description, hasVariant, image, name }: Props) =
     {
       paddingTop: hasVariant ? 10 : 15,
       paddingBottom: hasVariant ? 5 : 7,
-      color: "#363636",
+      color: COLORS.black,
       fontSize: hasVariant ? 15 : 30,
     },
   ];
 
   return (
     <View style={styles.containerCardItem}>
-      {/* IMAGE */}
       <Image source={{ uri: image }} style={imageStyle} />
-
-      {/* MATCHES */}
       {age && (
         <View style={styles.matchesCardItem}>
           <Text style={styles.matchesTextCardItem}>
@@ -43,11 +39,7 @@ export const CardItem = ({ age, description, hasVariant, image, name }: Props) =
           </Text>
         </View>
       )}
-
-      {/* NAME */}
       <Text style={nameStyle}>{name}</Text>
-
-      {/* DESCRIPTION */}
       {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
     </View>
   );

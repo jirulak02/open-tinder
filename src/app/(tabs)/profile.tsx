@@ -1,15 +1,6 @@
 import { useQuery } from "convex/react";
-import {
-  Image,
-  ImageBackground,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import IMAGE_BG from "@/assets/images/bg.png";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
@@ -27,14 +18,14 @@ const ProfileScreen = () => {
 
   if (!profile) {
     return (
-      <ImageBackground source={IMAGE_BG} style={globalStyles.bg}>
+      <View style={globalStyles.bg}>
         <ProfileSetup />
-      </ImageBackground>
+      </View>
     );
   }
 
   return (
-    <ImageBackground source={IMAGE_BG} style={globalStyles.bg}>
+    <View style={globalStyles.bg}>
       <ScrollView style={{ flex: 1 }}>
         <View style={styles.containerProfile}>
           <View style={styles.top}>
@@ -83,7 +74,7 @@ const ProfileScreen = () => {
           </View>
         </View>
       </ScrollView>
-    </ImageBackground>
+    </View>
   );
 };
 

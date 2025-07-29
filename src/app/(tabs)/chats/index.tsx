@@ -1,8 +1,7 @@
 import { useQuery } from "convex/react";
 import { Link } from "expo-router";
-import { FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import IMAGE_BG from "@/assets/images/bg.png";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ChatItem } from "@/features/chats/components/ChatItem";
 import { COLORS, globalStyles } from "@/styles";
@@ -17,7 +16,7 @@ const ChatsScreen = () => {
   }
 
   return (
-    <ImageBackground source={IMAGE_BG} style={globalStyles.bg}>
+    <View style={globalStyles.bg}>
       <View style={styles.containerMessages}>
         <View style={styles.top}>
           <Text style={styles.title}>Chats</Text>
@@ -43,7 +42,7 @@ const ChatsScreen = () => {
           )}
         />
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 
