@@ -1,13 +1,14 @@
 import { ImagePickerAsset, launchImageLibraryAsync } from "expo-image-picker";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ReactNode } from "react";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import { COLORS } from "@/styles";
 
 export const ImagePicker = ({
-  text,
+  children,
   onChange,
 }: {
-  text: string;
+  children: ReactNode;
   onChange: (value: ImagePickerAsset[]) => void;
 }) => {
   const pickImage = async () => {
@@ -24,28 +25,24 @@ export const ImagePicker = ({
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={pickImage} style={styles.button}>
-        <Text style={styles.buttonText}>{text}</Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={pickImage} style={styles.button}>
+      <Text style={styles.buttonText}>{children}</Text>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   button: {
-    backgroundColor: COLORS.black,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: COLORS.lightGray,
     borderRadius: 8,
   },
   buttonText: {
+    textAlign: "center",
     fontSize: 16,
-    color: COLORS.white,
+    color: COLORS.lightGray,
   },
 });

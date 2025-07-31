@@ -18,13 +18,14 @@ export const SignInForm = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
     reset,
   } = useForm<FormValues>({
     defaultValues: {
       email: "",
       password: "",
     },
+    mode: "onTouched",
   });
 
   const onSubmit = async (data: FormValues) => {
@@ -93,7 +94,7 @@ export const SignInForm = () => {
       <TouchableOpacity
         style={[styles.button, isSubmitting && styles.buttonDisabled]}
         onPress={handleSubmit(onSubmit)}
-        disabled={isSubmitting}
+        disabled={isSubmitting || !isValid}
       >
         <Text style={styles.buttonText}>
           {flow === "signIn"
@@ -127,7 +128,6 @@ export const SignInForm = () => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingHorizontal: 20,
     gap: 16,
   },
   input: {
@@ -145,8 +145,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "transparent",
-    paddingVertical: 12,
     paddingHorizontal: 16,
+    paddingVertical: 12,
     borderRadius: 8,
     borderWidth: 2,
     borderColor: COLORS.white,

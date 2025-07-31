@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: "absolute",
-    top: 150,
+    top: 100,
   },
 });

@@ -7,6 +7,7 @@ export const COLORS = {
   gray: "#424242",
   black: "#000000",
   blue: "#3b82f6",
+  red: "#ef4444",
   lightGray: "#9ca3af",
 } as const;
 
@@ -28,5 +29,9 @@ export const globalStyles = StyleSheet.create({
     width: DIMENSIONS.width,
     height: DIMENSIONS.height,
     backgroundColor: COLORS.white,
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    position: "relative",
   },
 });
