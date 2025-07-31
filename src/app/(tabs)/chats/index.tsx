@@ -36,7 +36,7 @@ const ChatsScreen = () => {
               asChild
             >
               <TouchableOpacity>
-                <ChatItem image={match.matchedProfile.imageUrl} name={match.matchedProfile.name} />
+                <ChatItem image={match.matchedProfile.images[0]} name={match.matchedProfile.name} />
               </TouchableOpacity>
             </Link>
           )}

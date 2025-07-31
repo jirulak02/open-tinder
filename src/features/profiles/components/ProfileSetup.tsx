@@ -1,4 +1,6 @@
 import { useMutation } from "convex/react";
+import { Image } from "expo-image";
+import { ImagePickerAsset } from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
 import {
   Alert,
@@ -10,16 +12,19 @@ import {
   View,
 } from "react-native";
 
+import { ImagePicker } from "@/components/ImagePicker";
 import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 
 type FormValues = {
   name: string;
   age: string;
   description: string;
-  imageUrl: string;
+  images: ImagePickerAsset[];
 };
 
 export const ProfileSetup = () => {
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const createProfile = useMutation(api.profiles.createProfile);
 
   const {
@@ -32,17 +37,34 @@ export const ProfileSetup = () => {
       name: "",
       age: "",
       description: "",
-      imageUrl: "",
+      images: [],
     },
   });
 
   const onSubmit = async (data: FormValues) => {
     try {
+      const uploadUrl = await generateUploadUrl();
+
+      const storageIds: Id<"_storage">[] = await Promise.all(
+        data.images.map(async (image) => {
+          const imageResponse = await fetch(image.uri);
+          const imageBlob = await imageResponse.blob();
+          const uploadResponse = await fetch(uploadUrl, {
+            method: "POST",
+            headers: { "Content-Type": "image/*" },
+            body: imageBlob,
+          });
+          const { storageId } = await uploadResponse.json();
+
+          return storageId;
+        })
+      );
+
       await createProfile({
         name: data.name,
         age: parseInt(data.age, 10),
         description: data.description,
-        imageUrl: data.imageUrl,
+        images: storageIds,
       });
 
       Alert.alert("Success", "Profile created successfully!");
@@ -145,28 +167,30 @@ export const ProfileSetup = () => {
 
         <Controller
           control={control}
-          name="imageUrl"
+          name="images"
           rules={{
-            required: "Profile image URL is required",
-            pattern: {
-              value: /^https?:\/\/.+$/i,
-              message: "Please enter a valid image URL",
+            required: "Upload at least one image",
+            minLength: {
+              value: 1,
+              message: "Upload at least one image",
+            },
+            maxLength: {
+              value: 4,
+              message: "You can upload up to 4 images",
             },
           }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={[styles.input, errors.imageUrl && styles.inputError]}
-              placeholder="Profile image URL (https://...)"
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              keyboardType="url"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
+          render={({ field: { value, onChange } }) => (
+            <View style={styles.imagePickerContainer}>
+              <ImagePicker text="Upload profile images" onChange={onChange} />
+              {errors.images && <Text style={styles.errorText}>{errors.images.message}</Text>}
+              <View style={styles.imagesContainer}>
+                {value.map((image) => (
+                  <Image key={image.uri} source={{ uri: image.uri }} style={styles.image} />
+                ))}
+              </View>
+            </View>
           )}
         />
-        {errors.imageUrl && <Text style={styles.errorText}>{errors.imageUrl.message}</Text>}
 
         <TouchableOpacity
           style={[styles.button, isSubmitting && styles.buttonDisabled]}
@@ -241,5 +265,21 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
     fontWeight: "600",
+  },
+  imagePickerContainer: {
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    gap: 16,
+  },
+  imagesContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 16,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderRadius: 8,
   },
 });

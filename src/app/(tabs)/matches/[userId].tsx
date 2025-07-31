@@ -26,7 +26,7 @@ const MatchProfileScreen = () => {
             <Text style={styles.title}>{profile.name}</Text>
           </View>
           <View style={{ alignItems: "center", marginTop: 20 }}>
-            <Image source={{ uri: profile.imageUrl }} style={styles.photo} resizeMode="cover" />
+            <Image source={{ uri: profile.images[0] }} style={styles.photo} resizeMode="cover" />
           </View>
           <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
           <View style={[styles.containerProfileItem, { marginTop: 20 }]}>

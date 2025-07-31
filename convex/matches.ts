@@ -27,9 +27,16 @@ export const getMatches = query({
           throw new Error("Matched profile not found");
         }
 
+        const profileImages = await Promise.all(
+          matchedProfile.images.map((image) => ctx.storage.getUrl(image))
+        );
+
         return {
           ...match,
-          matchedProfile,
+          matchedProfile: {
+            ...matchedProfile,
+            images: profileImages.filter((image): image is string => Boolean(image)),
+          },
         };
       })
     );

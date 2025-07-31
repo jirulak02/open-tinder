@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 import { Platform } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignIn } from "@/features/auth/components/SignIn";
@@ -66,7 +67,9 @@ const RootLayout = () => {
 
   return (
     <ConvexAuthProvider client={convex} storage={storage}>
-      <RootLayoutContent />
+      <GestureHandlerRootView>
+        <RootLayoutContent />
+      </GestureHandlerRootView>
     </ConvexAuthProvider>
   );
 };

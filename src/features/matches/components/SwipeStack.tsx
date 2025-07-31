@@ -8,7 +8,7 @@ import { api } from "@convex/_generated/api";
 import { Doc, Id } from "@convex/_generated/dataModel";
 
 type Props = {
-  potentialMatches: Doc<"profiles">[];
+  potentialMatches: (Omit<Doc<"profiles">, "images"> & { images: string[] })[];
 };
 
 export const SwipeStack = ({ potentialMatches }: Props) => {
@@ -46,7 +46,7 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
             name={profile.name}
             age={profile.age}
             description={profile.description}
-            image={profile.imageUrl}
+            images={profile.images}
           />
         </Card>
       ))}

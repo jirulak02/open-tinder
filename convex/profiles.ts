@@ -23,10 +23,21 @@ export const getCurrentUserProfile = query({
 
     if (!userId) return null;
 
-    return await ctx.db
+    const profile = await ctx.db
       .query("profiles")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .unique();
+
+    if (!profile) return null;
+
+    const profileImages = await Promise.all(
+      profile.images.map((image) => ctx.storage.getUrl(image))
+    );
+
+    return {
+      ...profile,
+      images: profileImages.filter((image): image is string => Boolean(image)),
+    };
   },
 });
 
@@ -41,10 +52,21 @@ export const getProfileById = query({
       throw new Error("Not authenticated");
     }
 
-    return await ctx.db
+    const profile = await ctx.db
       .query("profiles")
       .withIndex("by_user", (q) => q.eq("userId", args.userId))
       .unique();
+
+    if (!profile) return null;
+
+    const profileImages = await Promise.all(
+      profile.images.map((image) => ctx.storage.getUrl(image))
+    );
+
+    return {
+      ...profile,
+      images: profileImages.filter((image): image is string => Boolean(image)),
+    };
   },
 });
 
@@ -59,6 +81,18 @@ export const getPotentialMatches = query({
 
     const profiles = await ctx.db.query("profiles").collect();
     const profilesWithoutCurrentUser = profiles.filter((p) => p.userId !== userId);
+    const profilesWithImages = await Promise.all(
+      profilesWithoutCurrentUser.map(async (profile) => {
+        const profileImages = await Promise.all(
+          profile.images.map((image) => ctx.storage.getUrl(image))
+        );
+
+        return {
+          ...profile,
+          images: profileImages.filter((image): image is string => Boolean(image)),
+        };
+      })
+    );
 
     const mySwipes = await ctx.db
       .query("swipes")
@@ -66,7 +100,7 @@ export const getPotentialMatches = query({
       .collect();
     const swipedUserIds = new Set(mySwipes.map((s) => s.swipedId));
 
-    return profilesWithoutCurrentUser.filter((profile) => !swipedUserIds.has(profile.userId));
+    return profilesWithImages.filter((profile) => !swipedUserIds.has(profile.userId));
   },
 });
 
@@ -75,7 +109,7 @@ export const createProfile = mutation({
     name: v.string(),
     age: v.number(),
     description: v.string(),
-    imageUrl: v.string(),
+    images: v.array(v.id("_storage")),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);

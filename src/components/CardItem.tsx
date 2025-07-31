@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 import { COLORS, DIMENSIONS } from "@/styles";
@@ -7,11 +8,15 @@ type Props = {
   name: string;
   age: number;
   description: string;
-  image: string;
+  images: string[];
   hasVariant?: boolean;
 };
 
-export const CardItem = ({ age, description, hasVariant, image, name }: Props) => {
+export const CardItem = ({ age, description, hasVariant, images, name }: Props) => {
+  const [currentImage, setCurrentImage] = useState(images[0]);
+
+  void setCurrentImage;
+
   const imageStyle = [
     {
       borderRadius: 8,
@@ -31,7 +36,7 @@ export const CardItem = ({ age, description, hasVariant, image, name }: Props) =
 
   return (
     <View style={styles.containerCardItem}>
-      <Image source={{ uri: image }} style={imageStyle} />
+      <Image source={{ uri: currentImage }} style={imageStyle} />
       {age && (
         <View style={styles.matchesCardItem}>
           <Text style={styles.matchesTextCardItem}>

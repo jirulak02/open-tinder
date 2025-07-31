@@ -40,7 +40,7 @@ const MatchesScreen = () => {
             >
               <TouchableOpacity>
                 <CardItem
-                  image={match.matchedProfile.imageUrl}
+                  images={match.matchedProfile.images}
                   name={match.matchedProfile.name}
                   age={match.matchedProfile.age}
                   description={match.matchedProfile.description}

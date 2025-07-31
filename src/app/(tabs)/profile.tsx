@@ -1,5 +1,13 @@
 import { useQuery } from "convex/react";
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
@@ -32,8 +40,17 @@ const ProfileScreen = () => {
             <Text style={styles.title}>Profile</Text>
             <SignOutButton />
           </View>
-          <View style={{ alignItems: "center", marginTop: 20 }}>
-            <Image source={{ uri: profile.imageUrl }} style={styles.photo} resizeMode="cover" />
+          <View style={{ position: "relative", height: 450 }}>
+            <FlatList
+              data={profile.images}
+              horizontal
+              pagingEnabled
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(uri) => uri}
+              renderItem={({ item: image }) => (
+                <Image source={{ uri: image }} style={styles.photo} />
+              )}
+            />
           </View>
           <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
           <View style={styles.actionsProfile}>
