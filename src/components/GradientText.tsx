@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ReactNode } from "react";
 import { Platform, StyleSheet, Text, TextProps, TextStyle } from "react-native";
 
-import { COLORS } from "@/styles";
+import { COLORS, GRADIENT } from "@/styles";
 import MaskedView from "@react-native-masked-view/masked-view";
 
 type Props = TextProps & {
@@ -17,7 +17,7 @@ export const GradientText = ({ style, children, ...rest }: Props) => {
         style={[
           style,
           {
-            backgroundImage: `linear-gradient(45deg, ${COLORS.pink}, ${COLORS.orange})`,
+            backgroundImage: `linear-gradient(${GRADIENT.angle}deg, ${GRADIENT.colors.join(", ")})`,
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -38,11 +38,7 @@ export const GradientText = ({ style, children, ...rest }: Props) => {
         </Text>
       }
     >
-      <LinearGradient
-        colors={[COLORS.pink, COLORS.orange]}
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 0 }}
-      >
+      <LinearGradient colors={GRADIENT.colors} start={GRADIENT.start} end={GRADIENT.end}>
         {/* The gradient needs dimensions, which we can get around with this transparent text */}
         <Text {...rest} style={[style, styles.hiddenText]}>
           {children}

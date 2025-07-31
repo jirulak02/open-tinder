@@ -6,6 +6,15 @@ export const COLORS = {
   white: "#ffffff",
   gray: "#424242",
   black: "#000000",
+  blue: "#3b82f6",
+  lightGray: "#9ca3af",
+} as const;
+
+export const GRADIENT = {
+  colors: [COLORS.pink, COLORS.orange],
+  start: { x: 0, y: 1 },
+  end: { x: 1, y: 0 },
+  angle: 45,
 } as const;
 
 export const DIMENSIONS = {

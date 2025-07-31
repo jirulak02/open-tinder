@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ComponentType } from "react";
 import { Platform, StyleSheet, TextStyle } from "react-native";
 
-import { COLORS } from "@/styles";
+import { COLORS, GRADIENT } from "@/styles";
 import type { IconProps } from "@expo/vector-icons/build/createIconSet";
 import MaskedView from "@react-native-masked-view/masked-view";
 
@@ -26,7 +26,7 @@ export const GradientIcon = <T extends string>({
         style={[
           style,
           {
-            backgroundImage: `linear-gradient(45deg, ${COLORS.pink}, ${COLORS.orange})`,
+            backgroundImage: `linear-gradient(${GRADIENT.angle}deg, ${GRADIENT.colors.join(", ")})`,
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -43,11 +43,7 @@ export const GradientIcon = <T extends string>({
         <Icon {...iconRest} name={name} size={size} color={COLORS.black} style={style} />
       }
     >
-      <LinearGradient
-        colors={[COLORS.pink, COLORS.orange]}
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 0 }}
-      >
+      <LinearGradient colors={GRADIENT.colors} start={GRADIENT.start} end={GRADIENT.end}>
         {/* The gradient needs dimensions, which we can get around with this transparent icon */}
         <Icon {...iconRest} name={name} size={size} style={[style, styles.hiddenIcon]} />
       </LinearGradient>
