@@ -3,12 +3,13 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
-import { Platform } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Platform, StyleSheet, View } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { Logo } from "@/components/Logo";
 import { SignIn } from "@/features/auth/components/SignIn";
 import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
+import { COLORS, DIMENSIONS } from "@/styles";
 import { ConvexAuthProvider, TokenStorage } from "@convex-dev/auth/react";
 import { api } from "@convex/_generated/api";
 
@@ -34,12 +35,15 @@ const RootLayoutContent = () => {
   }
 
   return (
-    <>
+    <View style={styles.bg}>
       <Authenticated>
         {!profile ? (
           <ProfileSetup />
         ) : (
           <>
+            <View style={styles.logoContainer}>
+              <Logo isGradient size={32} />
+            </View>
             <Stack>
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="+not-found" />
@@ -51,13 +55,16 @@ const RootLayoutContent = () => {
       <Unauthenticated>
         <SignIn />
       </Unauthenticated>
-    </>
+    </View>
   );
 };
 
 const RootLayout = () => {
   const [loaded] = useFonts({
-    SpaceMono: require("@/assets/fonts/SpaceMono-Regular.ttf"),
+    "GothamRounded-Light": require("@/assets/fonts/GothamRounded/gothamrnd_light.otf"),
+    "GothamRounded-Book": require("@/assets/fonts/GothamRounded/gothamrnd_book.otf"),
+    "GothamRounded-Medium": require("@/assets/fonts/GothamRounded/gothamrnd_medium.otf"),
+    "GothamRounded-Bold": require("@/assets/fonts/GothamRounded/gothamrnd_bold.otf"),
   });
 
   if (!loaded) {
@@ -67,11 +74,26 @@ const RootLayout = () => {
 
   return (
     <ConvexAuthProvider client={convex} storage={storage}>
-      <GestureHandlerRootView>
-        <RootLayoutContent />
-      </GestureHandlerRootView>
+      <RootLayoutContent />
     </ConvexAuthProvider>
   );
 };
 
 export default RootLayout;
+
+export const styles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    width: DIMENSIONS.width,
+    height: DIMENSIONS.height,
+    backgroundColor: COLORS.white,
+    paddingTop: 50,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    position: "relative",
+  },
+  logoContainer: {
+    alignItems: "center",
+    paddingVertical: 8,
+  },
+});

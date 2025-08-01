@@ -3,11 +3,11 @@ import { StyleSheet, View } from "react-native";
 
 import { SignInForm } from "./SignInForm";
 import { Logo } from "@/components/Logo";
-import { COLORS, GRADIENT, globalStyles } from "@/styles";
+import { COLORS, GRADIENT } from "@/styles";
 
 export const SignIn = () => {
   return (
-    <View style={globalStyles.bg}>
+    <>
       <LinearGradient
         colors={GRADIENT.colors}
         start={GRADIENT.start}
@@ -20,7 +20,7 @@ export const SignIn = () => {
         </View>
         <SignInForm />
       </View>
-    </View>
+    </>
   );
 };
 

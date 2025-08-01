@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
+import { Text } from "@/components/Text";
 import { COLORS } from "@/styles";
 import { useAuthActions } from "@convex-dev/auth/react";
 

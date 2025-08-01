@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { StyleSheet, Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { StyleSheet, TouchableOpacity, TouchableOpacityProps } from "react-native";
 
+import { Text } from "@/components/Text";
 import { COLORS, GRADIENT } from "@/styles";
 
 export const GradientButton = ({ children, disabled, ...rest }: TouchableOpacityProps) => {

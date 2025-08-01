@@ -1,7 +1,8 @@
 import { ImagePickerAsset, launchImageLibraryAsync } from "expo-image-picker";
 import { ReactNode } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
+import { Text } from "@/components/Text";
 import { COLORS } from "@/styles";
 
 export const ImagePicker = ({

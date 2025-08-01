@@ -1,7 +1,8 @@
 import { Link, Stack } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
-import { globalStyles } from "@/styles";
+import { Text } from "@/components/Text";
+import { COLORS } from "@/styles";
 
 const NotFoundScreen = () => {
   return (
@@ -9,7 +10,6 @@ const NotFoundScreen = () => {
       <Stack.Screen options={{ title: "Oops!" }} />
       <View
         style={[
-          globalStyles.bg,
           {
             alignItems: "center",
             justifyContent: "center",
@@ -37,7 +37,7 @@ const NotFoundScreen = () => {
             style={{
               lineHeight: 30,
               fontSize: 16,
-              color: "#0a7ea4",
+              color: COLORS.blue,
             }}
           >
             Go to home screen!

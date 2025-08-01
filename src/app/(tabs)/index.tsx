@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { SwipeStack } from "@/features/matches/components/SwipeStack";
-import { globalStyles } from "@/styles";
 import { api } from "@convex/_generated/api";
 
 const HomeScreen = () => {
@@ -14,10 +13,8 @@ const HomeScreen = () => {
   }
 
   return (
-    <View style={globalStyles.bg}>
-      <View style={styles.container}>
-        <SwipeStack potentialMatches={potentialMatches} />
-      </View>
+    <View style={styles.container}>
+      <SwipeStack potentialMatches={potentialMatches} />
     </View>
   );
 };

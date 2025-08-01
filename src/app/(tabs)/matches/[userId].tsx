@@ -1,10 +1,11 @@
 import { useQuery } from "convex/react";
 import { useLocalSearchParams } from "expo-router";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { Text } from "@/components/Text";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
-import { COLORS, DIMENSIONS, globalStyles } from "@/styles";
+import { COLORS, DIMENSIONS } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,36 +20,34 @@ const MatchProfileScreen = () => {
   }
 
   return (
-    <View style={globalStyles.bg}>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.containerProfile}>
-          <View style={styles.top}>
-            <Text style={styles.title}>{profile.name}</Text>
+    <ScrollView style={{ flex: 1 }}>
+      <View style={styles.containerProfile}>
+        <View style={styles.top}>
+          <Text style={styles.title}>{profile.name}</Text>
+        </View>
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <Image source={{ uri: profile.images[0] }} style={styles.photo} resizeMode="cover" />
+        </View>
+        <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
+        <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
+          <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
+            Profile Information
+          </Text>
+          <View style={styles.info}>
+            <Ionicons name="person" color={COLORS.gray} size={15} style={styles.iconProfile} />
+            <Text style={styles.infoContent}>Name: {profile.name}</Text>
           </View>
-          <View style={{ alignItems: "center", marginTop: 20 }}>
-            <Image source={{ uri: profile.images[0] }} style={styles.photo} resizeMode="cover" />
+          <View style={styles.info}>
+            <Ionicons name="calendar" color={COLORS.gray} size={15} style={styles.iconProfile} />
+            <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
           </View>
-          <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
-          <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
-            <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
-              Profile Information
-            </Text>
-            <View style={styles.info}>
-              <Ionicons name="person" color={COLORS.gray} size={15} style={styles.iconProfile} />
-              <Text style={styles.infoContent}>Name: {profile.name}</Text>
-            </View>
-            <View style={styles.info}>
-              <Ionicons name="calendar" color={COLORS.gray} size={15} style={styles.iconProfile} />
-              <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
-            </View>
-            <View style={styles.info}>
-              <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.iconProfile} />
-              <Text style={styles.infoContent}>Looking for connections</Text>
-            </View>
+          <View style={styles.info}>
+            <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.iconProfile} />
+            <Text style={styles.infoContent}>Looking for connections</Text>
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 

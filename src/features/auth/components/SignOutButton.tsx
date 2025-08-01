@@ -1,6 +1,7 @@
 import { useConvexAuth } from "convex/react";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
+import { Text } from "@/components/Text";
 import { useAuthActions } from "@convex-dev/auth/react";
 
 export const SignOutButton = () => {

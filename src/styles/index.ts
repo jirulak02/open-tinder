@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions } from "react-native";
 
 export const COLORS = {
   pink: "#fd2b7b",
@@ -22,16 +22,3 @@ export const DIMENSIONS = {
   width: Dimensions.get("window").width,
   height: Dimensions.get("window").height,
 } as const;
-
-export const globalStyles = StyleSheet.create({
-  bg: {
-    flex: 1,
-    width: DIMENSIONS.width,
-    height: DIMENSIONS.height,
-    backgroundColor: COLORS.white,
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    position: "relative",
-  },
-});

@@ -1,8 +1,9 @@
 import { ComponentType } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import { GradientIcon } from "./GradientIcon";
 import { GradientText } from "./GradientText";
+import { Text } from "./Text";
 import { COLORS } from "@/styles";
 import { Ionicons } from "@expo/vector-icons";
 import { IconProps } from "@expo/vector-icons/build/createIconSet";

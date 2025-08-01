@@ -1,19 +1,12 @@
 import { useQuery } from "convex/react";
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { Text } from "@/components/Text";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
 import { ProfileItem } from "@/features/profiles/components/ProfileItem";
 import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
-import { COLORS, DIMENSIONS, globalStyles } from "@/styles";
+import { COLORS, DIMENSIONS } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,73 +18,60 @@ const ProfileScreen = () => {
   }
 
   if (!profile) {
-    return (
-      <View style={globalStyles.bg}>
-        <ProfileSetup />
-      </View>
-    );
+    return <ProfileSetup />;
   }
 
   return (
-    <View style={globalStyles.bg}>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.containerProfile}>
-          <View style={styles.top}>
-            <Text style={styles.title}>Profile</Text>
-            <SignOutButton />
+    <ScrollView style={{ flex: 1 }}>
+      <View style={styles.containerProfile}>
+        <View style={styles.top}>
+          <Text style={styles.title}>Profile</Text>
+          <SignOutButton />
+        </View>
+        <View style={{ position: "relative", height: 450 }}>
+          <FlatList
+            data={profile.images}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(uri) => uri}
+            renderItem={({ item: image }) => <Image source={{ uri: image }} style={styles.photo} />}
+          />
+        </View>
+        <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
+        <View style={styles.actionsProfile}>
+          <TouchableOpacity style={styles.circledButton}>
+            <Ionicons name="pencil" size={20} color={COLORS.white} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.roundedButton}>
+            <Ionicons name="cog" size={15} color={COLORS.white} />
+            <Text style={styles.textButton}>Settings</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
+          <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
+            Profile Information
+          </Text>
+          <View style={styles.info}>
+            <Ionicons name="person" color={COLORS.gray} size={15} style={styles.IoniconsProfile} />
+            <Text style={styles.infoContent}>Name: {profile.name}</Text>
           </View>
-          <View style={{ position: "relative", height: 450 }}>
-            <FlatList
-              data={profile.images}
-              horizontal
-              pagingEnabled
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(uri) => uri}
-              renderItem={({ item: image }) => (
-                <Image source={{ uri: image }} style={styles.photo} />
-              )}
+          <View style={styles.info}>
+            <Ionicons
+              name="calendar"
+              color={COLORS.gray}
+              size={15}
+              style={styles.IoniconsProfile}
             />
+            <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
           </View>
-          <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
-          <View style={styles.actionsProfile}>
-            <TouchableOpacity style={styles.circledButton}>
-              <Ionicons name="pencil" size={20} color={COLORS.white} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.roundedButton}>
-              <Ionicons name="cog" size={15} color={COLORS.white} />
-              <Text style={styles.textButton}>Settings</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
-            <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
-              Profile Information
-            </Text>
-            <View style={styles.info}>
-              <Ionicons
-                name="person"
-                color={COLORS.gray}
-                size={15}
-                style={styles.IoniconsProfile}
-              />
-              <Text style={styles.infoContent}>Name: {profile.name}</Text>
-            </View>
-            <View style={styles.info}>
-              <Ionicons
-                name="calendar"
-                color={COLORS.gray}
-                size={15}
-                style={styles.IoniconsProfile}
-              />
-              <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
-            </View>
-            <View style={styles.info}>
-              <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.IoniconsProfile} />
-              <Text style={styles.infoContent}>Looking for connections</Text>
-            </View>
+          <View style={styles.info}>
+            <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.IoniconsProfile} />
+            <Text style={styles.infoContent}>Looking for connections</Text>
           </View>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
