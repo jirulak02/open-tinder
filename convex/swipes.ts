@@ -26,7 +26,7 @@ export const swipeUser = mutation({
       throw new Error("Already swiped on this user");
     }
 
-    await ctx.db.insert("swipes", {
+    const swipeId = await ctx.db.insert("swipes", {
       swiperId,
       swipedId: args.swipedUserId,
       isLike: args.isLike,
@@ -41,16 +41,36 @@ export const swipeUser = mutation({
         .unique();
 
       if (mutualSwipe && mutualSwipe.isLike) {
-        await ctx.db.insert("matches", {
+        const matchId = await ctx.db.insert("matches", {
           user1Id: swiperId < args.swipedUserId ? swiperId : args.swipedUserId,
           user2Id: swiperId < args.swipedUserId ? args.swipedUserId : swiperId,
           matchedAt: Date.now(),
         });
 
-        return { isMatch: true };
+        return { swipeId, matchId };
       }
     }
 
-    return { isMatch: false };
+    return { swipeId };
+  },
+});
+
+export const rewindSwipe = mutation({
+  args: {
+    swipeId: v.id("swipes"),
+    matchId: v.optional(v.id("matches")),
+  },
+  handler: async (ctx, args) => {
+    const swiperId = await getAuthUserId(ctx);
+
+    if (!swiperId) {
+      throw new Error("Not authenticated");
+    }
+
+    await ctx.db.delete(args.swipeId);
+
+    if (args.matchId) {
+      await ctx.db.delete(args.matchId);
+    }
   },
 });

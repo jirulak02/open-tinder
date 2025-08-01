@@ -1,7 +1,10 @@
 import { v } from "convex/values";
 
+import { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+export type Profile = Omit<Doc<"profiles">, "images"> & { images: string[] };
 
 export const getAllProfiles = query({
   args: {},
