@@ -23,7 +23,8 @@ export default HomeScreen;
 
 export const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
-    marginBottom: 10,
+    flex: 1,
+    marginVertical: 20,
+    paddingHorizontal: 10,
   },
 });

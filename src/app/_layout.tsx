@@ -96,7 +96,6 @@ export const styles = StyleSheet.create({
     width: DIMENSIONS.width,
     height: DIMENSIONS.height,
     backgroundColor: COLORS.white,
-    paddingHorizontal: 20,
     position: "relative",
   },
   header: {

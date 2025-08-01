@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 100,
     position: "relative",
+    paddingHorizontal: 20,
     paddingBottom: 20,
   },
   logoContainer: {
