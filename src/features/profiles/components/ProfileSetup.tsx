@@ -2,11 +2,12 @@ import { useMutation } from "convex/react";
 import { Image } from "expo-image";
 import { ImagePickerAsset } from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, StyleSheet, TextInput, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 
 import { GradientButton } from "@/components/GradientButton";
 import { ImagePicker } from "@/components/ImagePicker";
 import { Text } from "@/components/Text";
+import { TextInput } from "@/components/TextInput";
 import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";

@@ -7,12 +7,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { TextInput } from "@/components/TextInput";
 import { MessageBubble } from "@/features/chats/components/MessageBubble";
 import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
