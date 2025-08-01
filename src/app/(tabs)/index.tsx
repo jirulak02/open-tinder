@@ -2,7 +2,7 @@ import { useQuery } from "convex/react";
 import { StyleSheet, View } from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { SwipeStack } from "@/features/matches/components/SwipeStack";
+import { SwipeStack } from "@/features/matches/components/SwipeStack/SwipeStack";
 import { api } from "@convex/_generated/api";
 
 const HomeScreen = () => {
@@ -24,7 +24,5 @@ export default HomeScreen;
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
-    paddingHorizontal: 10,
   },
 });

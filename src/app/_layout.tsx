@@ -50,7 +50,7 @@ const RootLayoutContent = () => {
                 headerLeft: () => null,
                 headerTitle: () => (
                   <View style={styles.header}>
-                    <Logo isGradient size={32} />
+                    <Logo isGradient size={28} />
                   </View>
                 ),
               }}
@@ -102,9 +102,10 @@ export const styles = StyleSheet.create({
     position: "relative",
   },
   header: {
-    paddingVertical: 4,
+    paddingVertical: 8,
   },
   content: {
     backgroundColor: COLORS.white,
+    paddingTop: 4,
   },
 });
