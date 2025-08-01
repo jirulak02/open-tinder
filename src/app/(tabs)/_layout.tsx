@@ -12,9 +12,8 @@ const TabLayout = () => {
         headerShown: false,
         animation: "none",
         tabBarShowLabel: false,
-        tabBarActiveTintColor: COLORS.pink,
-        tabBarInactiveTintColor: COLORS.gray,
         tabBarStyle: styles.tabBar,
+        sceneStyle: styles.scene,
       }}
     >
       <Tabs.Screen
@@ -74,5 +73,8 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowColor: COLORS.black,
     shadowOffset: { height: 0, width: 0 },
+  },
+  scene: {
+    backgroundColor: COLORS.white,
   },
 });

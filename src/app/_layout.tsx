@@ -41,11 +41,20 @@ const RootLayoutContent = () => {
           <ProfileSetup />
         ) : (
           <>
-            <View style={styles.logoContainer}>
-              <Logo isGradient size={32} />
-            </View>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack
+              screenOptions={{
+                contentStyle: styles.content,
+                headerShadowVisible: false,
+                headerBackVisible: false,
+                headerLeft: () => null,
+                headerTitle: () => (
+                  <View style={styles.header}>
+                    <Logo isGradient size={32} />
+                  </View>
+                ),
+              }}
+            >
+              <Stack.Screen name="(tabs)" />
               <Stack.Screen name="+not-found" />
             </Stack>
             <StatusBar style="auto" />
@@ -87,13 +96,13 @@ export const styles = StyleSheet.create({
     width: DIMENSIONS.width,
     height: DIMENSIONS.height,
     backgroundColor: COLORS.white,
-    paddingTop: 50,
     paddingHorizontal: 20,
-    paddingBottom: 20,
     position: "relative",
   },
-  logoContainer: {
-    alignItems: "center",
-    paddingVertical: 8,
+  header: {
+    paddingVertical: 4,
+  },
+  content: {
+    backgroundColor: COLORS.white,
   },
 });

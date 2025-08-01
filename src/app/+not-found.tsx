@@ -1,51 +1,35 @@
-import { Link, Stack } from "expo-router";
-import { View } from "react-native";
+import { Link } from "expo-router";
+import { StyleSheet, View } from "react-native";
 
+import { GradientButton } from "@/components/GradientButton";
 import { Text } from "@/components/Text";
-import { COLORS } from "@/styles";
 
 const NotFoundScreen = () => {
   return (
-    <>
-      <Stack.Screen options={{ title: "Oops!" }} />
-      <View
-        style={[
-          {
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-          },
-        ]}
-      >
-        <Text
-          style={{
-            fontSize: 32,
-            fontWeight: "bold",
-            lineHeight: 32,
-          }}
-        >
-          This screen does not exist.
-        </Text>
-        <Link
-          href="/"
-          style={{
-            marginTop: 15,
-            paddingVertical: 15,
-          }}
-        >
-          <Text
-            style={{
-              lineHeight: 30,
-              fontSize: 16,
-              color: COLORS.blue,
-            }}
-          >
-            Go to home screen!
-          </Text>
-        </Link>
-      </View>
-    </>
+    <View style={styles.container}>
+      <Text style={styles.title}>404 - Not Found</Text>
+      <Link href="/" asChild style={styles.link}>
+        <GradientButton>Go to home screen</GradientButton>
+      </Link>
+    </View>
   );
 };
 
 export default NotFoundScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+    paddingBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+  },
+  link: {
+    marginTop: 15,
+    paddingVertical: 15,
+  },
+});
