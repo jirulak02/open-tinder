@@ -21,6 +21,8 @@ import type * as messages from "../messages.js";
 import type * as profiles from "../profiles.js";
 import type * as router from "../router.js";
 import type * as swipes from "../swipes.js";
+import type * as uploadthing from "../uploadthing.js";
+import type * as utils from "../utils.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -39,6 +41,8 @@ declare const fullApi: ApiFromModules<{
   profiles: typeof profiles;
   router: typeof router;
   swipes: typeof swipes;
+  uploadthing: typeof uploadthing;
+  utils: typeof utils;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

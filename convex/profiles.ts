@@ -2,22 +2,10 @@ import { v } from "convex/values";
 
 import { Doc } from "./_generated/dataModel";
 import { mutation, query } from "./_generated/server";
+import { processProfile } from "./utils";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
 export type Profile = Omit<Doc<"profiles">, "images"> & { images: string[] };
-
-export const getAllProfiles = query({
-  args: {},
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-
-    if (!userId) {
-      throw new Error("Not authenticated");
-    }
-
-    return await ctx.db.query("profiles").collect();
-  },
-});
 
 export const getCurrentUserProfile = query({
   args: {},
@@ -33,14 +21,7 @@ export const getCurrentUserProfile = query({
 
     if (!profile) return null;
 
-    const profileImages = await Promise.all(
-      profile.images.map((image) => ctx.storage.getUrl(image))
-    );
-
-    return {
-      ...profile,
-      images: profileImages.filter((image): image is string => Boolean(image)),
-    };
+    return await processProfile(ctx, profile);
   },
 });
 
@@ -62,14 +43,7 @@ export const getProfileById = query({
 
     if (!profile) return null;
 
-    const profileImages = await Promise.all(
-      profile.images.map((image) => ctx.storage.getUrl(image))
-    );
-
-    return {
-      ...profile,
-      images: profileImages.filter((image): image is string => Boolean(image)),
-    };
+    return await processProfile(ctx, profile);
   },
 });
 
@@ -85,16 +59,7 @@ export const getPotentialMatches = query({
     const profiles = await ctx.db.query("profiles").collect();
     const profilesWithoutCurrentUser = profiles.filter((p) => p.userId !== userId);
     const profilesWithImages = await Promise.all(
-      profilesWithoutCurrentUser.map(async (profile) => {
-        const profileImages = await Promise.all(
-          profile.images.map((image) => ctx.storage.getUrl(image))
-        );
-
-        return {
-          ...profile,
-          images: profileImages.filter((image): image is string => Boolean(image)),
-        };
-      })
+      profilesWithoutCurrentUser.map(async (profile) => await processProfile(ctx, profile))
     );
 
     const mySwipes = await ctx.db
@@ -112,7 +77,8 @@ export const createProfile = mutation({
     name: v.string(),
     age: v.number(),
     description: v.string(),
-    images: v.array(v.id("_storage")),
+    images: v.array(v.union(v.id("_storage"), v.string())),
+    uploadProvider: v.union(v.literal("convex"), v.literal("uploadthing")),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);

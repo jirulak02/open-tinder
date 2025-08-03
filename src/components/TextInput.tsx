@@ -1,6 +1,6 @@
 import { TextInput as RNTextInput, TextInputProps } from "react-native";
 
-import { getFontFamily } from "@/utils";
+import { getFontFamily } from "@/utils/reactNative";
 
 export const TextInput = (props: TextInputProps) => {
   const fontFamily = getFontFamily(props.style);

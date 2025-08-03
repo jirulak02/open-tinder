@@ -2,21 +2,24 @@ import { useMutation } from "convex/react";
 import { Image } from "expo-image";
 import { ImagePickerAsset } from "expo-image-picker";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, Platform, ScrollView, StyleSheet, View } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
 
 import { GradientButton } from "@/components/GradientButton";
 import { ImagePicker } from "@/components/ImagePicker";
 import { Text } from "@/components/Text";
 import { TextInput } from "@/components/TextInput";
+import { uploadImages } from "@/features/profiles/utils";
 import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
-import { Id } from "@convex/_generated/dataModel";
+import { Ionicons } from "@expo/vector-icons";
 
 type FormValues = {
   name: string;
   age: string;
   description: string;
   images: ImagePickerAsset[];
+  uploadProvider: "convex" | "uploadthing";
 };
 
 export const ProfileSetup = () => {
@@ -34,34 +37,27 @@ export const ProfileSetup = () => {
       age: "",
       description: "",
       images: [],
+      uploadProvider: "convex",
     },
     mode: "onTouched",
   });
 
   const onSubmit = async (data: FormValues) => {
     try {
-      const uploadUrl = await generateUploadUrl();
-
-      const storageIds: Id<"_storage">[] = await Promise.all(
-        data.images.map(async (image) => {
-          const imageResponse = await fetch(image.uri);
-          const imageBlob = await imageResponse.blob();
-          const uploadResponse = await fetch(uploadUrl, {
-            method: "POST",
-            headers: { "Content-Type": "image/*" },
-            body: imageBlob,
-          });
-          const { storageId } = await uploadResponse.json();
-
-          return storageId;
-        })
-      );
+      const convexUploadUrl = await generateUploadUrl();
+      const images = await uploadImages({
+        images: data.images,
+        uploadProvider: data.uploadProvider,
+        convexUploadUrl,
+      });
+      console.log("images", images);
 
       await createProfile({
         name: data.name,
         age: parseInt(data.age, 10),
         description: data.description,
-        images: storageIds,
+        images: images,
+        uploadProvider: data.uploadProvider,
       });
 
       Alert.alert("Success", "Profile created successfully!");
@@ -73,7 +69,7 @@ export const ProfileSetup = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={styles.title}>Set up your profile</Text>
         <Text style={styles.subtitle}>Tell us about yourself to get started</Text>
@@ -100,10 +96,10 @@ export const ProfileSetup = () => {
                 autoCapitalize="words"
                 autoCorrect={false}
               />
+              {errors.name && <Text style={styles.errorText}>{errors.name.message}</Text>}
             </View>
           )}
         />
-        {errors.name && <Text style={styles.errorText}>{errors.name.message}</Text>}
         <Controller
           control={control}
           name="age"
@@ -133,10 +129,10 @@ export const ProfileSetup = () => {
                 keyboardType="numeric"
                 autoCorrect={false}
               />
+              {errors.age && <Text style={styles.errorText}>{errors.age.message}</Text>}
             </View>
           )}
         />
-        {errors.age && <Text style={styles.errorText}>{errors.age.message}</Text>}
         <Controller
           control={control}
           name="description"
@@ -166,10 +162,62 @@ export const ProfileSetup = () => {
                 textAlignVertical="top"
                 autoCapitalize="sentences"
               />
+              {errors.description && (
+                <Text style={styles.errorText}>{errors.description.message}</Text>
+              )}
             </View>
           )}
         />
-        {errors.description && <Text style={styles.errorText}>{errors.description.message}</Text>}
+        <Controller
+          control={control}
+          name="uploadProvider"
+          rules={{
+            required: "Upload provider is required",
+            validate: (value) => {
+              if (value === "convex") return true;
+              if (value === "uploadthing") return true;
+              return "Invalid upload provider";
+            },
+          }}
+          render={({ field: { onChange, value } }) => (
+            <View>
+              <Text style={styles.label}>Image upload provider</Text>
+              <RNPickerSelect
+                placeholder={{}}
+                value={value}
+                onValueChange={onChange}
+                items={[
+                  { label: "Convex", value: "convex" },
+                  { label: "UploadThing", value: "uploadthing" },
+                ]}
+                Icon={() => <Ionicons name="chevron-down" size={20} color={COLORS.black} />}
+                useNativeAndroidPickerStyle={false}
+                style={{
+                  inputIOS: [
+                    styles.input,
+                    styles.inputSelect,
+                    {
+                      pointerEvents: "none",
+                    },
+                  ],
+                  inputAndroid: [styles.input, styles.inputSelect],
+                  inputWeb: [
+                    styles.input,
+                    styles.inputSelect,
+                    {
+                      // @ts-expect-error - Necessary to hide native arrow on web
+                      appearance: "none",
+                    },
+                  ],
+                  iconContainer: styles.inputSelectIcon,
+                }}
+              />
+              {errors.uploadProvider && (
+                <Text style={styles.errorText}>{errors.uploadProvider.message}</Text>
+              )}
+            </View>
+          )}
+        />
         <Controller
           control={control}
           name="images"
@@ -206,7 +254,7 @@ export const ProfileSetup = () => {
       <GradientButton disabled={isSubmitting || !isValid} onPress={handleSubmit(onSubmit)}>
         {isSubmitting ? "Setting up profile..." : "Set up profile"}
       </GradientButton>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -214,8 +262,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    marginVertical: 20,
+    paddingTop: 60,
+    paddingBottom: 20,
+    width: Platform.OS === "web" ? 500 : "100%",
+    alignSelf: "center",
     justifyContent: "space-between",
+    gap: 16,
   },
   inputContainer: {
     gap: 16,
@@ -230,7 +282,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: COLORS.gray,
     textAlign: "center",
-    marginBottom: 24,
+    marginBottom: 20,
   },
   label: {
     fontSize: 16,
@@ -250,14 +302,23 @@ const styles = StyleSheet.create({
   textArea: {
     height: 80,
   },
+  inputSelect: {
+    fontFamily: "GothamRounded-Book",
+    paddingRight: 40,
+  },
+  inputSelectIcon: {
+    position: "absolute",
+    top: "50%",
+    right: 12,
+    transform: [{ translateY: -10 }],
+  },
   inputError: {
     borderColor: COLORS.red,
   },
   errorText: {
     color: COLORS.red,
     fontSize: 12,
-    marginTop: -12,
-    marginBottom: 4,
+    marginTop: 4,
   },
   imagePickerContainer: {
     gap: 16,

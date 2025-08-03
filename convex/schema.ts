@@ -9,7 +9,8 @@ const applicationTables = {
     name: v.string(),
     age: v.number(),
     description: v.string(),
-    images: v.array(v.id("_storage")),
+    images: v.array(v.union(v.id("_storage"), v.string())),
+    uploadProvider: v.union(v.literal("convex"), v.literal("uploadthing")),
   }).index("by_user", ["userId"]),
 
   swipes: defineTable({
