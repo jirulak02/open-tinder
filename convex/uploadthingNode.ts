@@ -1,10 +1,13 @@
 "use node";
 
+import crypto from "node:crypto";
 import { UploadThingError, createRouteHandler, createUploadthing } from "uploadthing/server";
 import type { FileRouter } from "uploadthing/server";
 
 import { ActionCtx, internalAction } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+globalThis.crypto = crypto as Crypto;
 
 const f = createUploadthing();
 
