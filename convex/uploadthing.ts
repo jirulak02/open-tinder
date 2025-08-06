@@ -2,8 +2,6 @@ import { internal } from "./_generated/api";
 import { httpAction } from "./_generated/server";
 
 export const uploadthingHandler = httpAction(async (ctx, req) => {
-  console.log("CUSTOM LOG: httpAction(Convex) req", req);
-
   // Extract the request details because Convex doesn't support the Request type for a prop
   const url = req.url;
   const method = req.method;

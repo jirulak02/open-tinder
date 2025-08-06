@@ -15,22 +15,21 @@ export const uploadImages = async ({
   authToken: string;
 }): Promise<(Id<"_storage"> | string)[]> => {
   if (uploadProvider === "uploadthing") {
-    const files: File[] = [];
+    const files = await Promise.all(
+      images.map(async (image) => {
+        if (image.file) {
+          return Object.assign(image.file, { uri: image.uri });
+        }
 
-    for (const image of images) {
-      if (image.file) {
-        files.push(image.file);
+        const imageResponse = await fetch(image.uri);
+        const imageBlob = await imageResponse.blob();
+        const fileName = image.fileName ?? image.uri.split("/").pop() ?? "unknown-filename";
+        const fileType = image.mimeType ?? image.type ?? "application/octet-stream";
+        const file = new File([imageBlob], fileName, { type: fileType });
 
-        continue;
-      }
-
-      const imageResponse = await fetch(image.uri);
-      const imageBlob = await imageResponse.blob();
-      const fileName = image.fileName ?? image.uri.split("/").pop() ?? `image_${Date.now()}.jpg`;
-      const mimeType = imageBlob.type ?? image.type ?? "image/jpeg";
-
-      files.push(new File([imageBlob], fileName, { type: mimeType }));
-    }
+        return Object.assign(file, { uri: image.uri });
+      })
+    );
 
     const uploadResult = await uploadFiles((routeRegistry) => routeRegistry.profileImagesUploader, {
       files,

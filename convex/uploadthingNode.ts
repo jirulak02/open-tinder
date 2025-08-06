@@ -59,17 +59,6 @@ export const handleUploadthingRequest = internalAction(
       body: string | null;
     }
   ) => {
-    console.log("CUSTOM LOG: internalAction(Nodejs) req props", {
-      url,
-      method,
-      headers,
-      body,
-    });
-    console.log(
-      "CUSTOM LOG: internalAction(Nodejs) hasUploadthingToken",
-      !!process.env.UPLOADTHING_TOKEN
-    );
-
     const uploadRouter = createUploadRouter(ctx);
     const uploadthingHandler = createRouteHandler({
       router: uploadRouter,
@@ -88,16 +77,12 @@ export const handleUploadthingRequest = internalAction(
 
     const response = await uploadthingHandler(request);
 
-    console.log("CUSTOM LOG: internalAction(Nodejs) response", response);
-
     // Extract the response details because Convex doesn't support the Response type for a prop
     const responseBody = await response.text();
     const responseHeaders: Record<string, string> = {};
     response.headers.forEach((value, key) => {
       responseHeaders[key] = value;
     });
-
-    console.log("CUSTOM LOG: internalAction(Nodejs) responseBody", responseBody);
 
     return {
       status: response.status,

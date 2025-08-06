@@ -9,7 +9,7 @@ import { GradientButton } from "@/components/GradientButton";
 import { ImagePicker } from "@/components/ImagePicker";
 import { Text } from "@/components/Text";
 import { TextInput } from "@/components/TextInput";
-import { uploadImages } from "@/features/profiles/utils";
+import { uploadImages } from "@/features/profiles/utils/uploadImages";
 import { COLORS } from "@/styles";
 import { useAuthToken } from "@convex-dev/auth/react";
 import { api } from "@convex/_generated/api";
