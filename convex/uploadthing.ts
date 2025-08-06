@@ -1,66 +1,36 @@
-import { UploadThingError, createRouteHandler, createUploadthing } from "uploadthing/server";
-import type { FileRouter } from "uploadthing/server";
-
-import { ActionCtx, httpAction } from "./_generated/server";
-import { getAuthUserId } from "@convex-dev/auth/server";
-
-const f = createUploadthing();
-
-const createUploadRouter = (ctx: ActionCtx) => {
-  const uploadRouter = {
-    // Define as many FileRoutes as you like, each with a unique routeSlug
-    profileImagesUploader: f({
-      image: {
-        /**
-         * For full list of options and defaults, see the File Route API reference
-         * @see https://docs.uploadthing.com/file-routes#route-config
-         */
-        maxFileSize: "4MB",
-        minFileCount: 1,
-        maxFileCount: 4,
-      },
-    })
-      .middleware(async () => {
-        console.log("uploadthing middleware");
-
-        const userId = await getAuthUserId(ctx);
-
-        if (!userId) throw new UploadThingError("Unauthorized");
-
-        console.log("uploadthing middleware done for user", userId);
-
-        // Whatever is returned here is accessible in onUploadComplete as `metadata`
-        return { userId };
-      })
-      .onUploadComplete(({ file, metadata }) => {
-        console.log("uploadthing onUploadComplete");
-
-        return {
-          uploadedBy: metadata.userId,
-          imageUrl: file.ufsUrl,
-        };
-      }),
-  } satisfies FileRouter;
-
-  return uploadRouter;
-};
+import { internal } from "./_generated/api";
+import { httpAction } from "./_generated/server";
 
 export const uploadthingHandler = httpAction(async (ctx, req) => {
-  console.log("uploadthingHandler");
+  console.log("CUSTOM LOG: httpAction(Convex) req", req);
 
-  const uploadRouter = createUploadRouter(ctx);
-
-  const uploadthingHandler = createRouteHandler({
-    router: uploadRouter,
-    config: {
-      token: process.env.UPLOADTHING_TOKEN,
-      logLevel: "Debug",
-    },
+  // Extract the request details because Convex doesn't support the Request type for a prop
+  const url = req.url;
+  const method = req.method;
+  const headers: Record<string, string> = {};
+  req.headers.forEach((value, key) => {
+    headers[key] = value;
   });
+  let body: string | null = null;
+  if (method !== "GET" && method !== "HEAD") {
+    body = await req.text();
+  }
 
-  console.log("uploadthingHandler done");
+  // Call the internal action that runs in Node.js (uploadthing needs to run in Node.js to avoid import errors)
+  const uploadthingResponse = await ctx.runAction(
+    internal.uploadthingNode.handleUploadthingRequest,
+    {
+      url,
+      method,
+      headers,
+      body,
+    }
+  );
 
-  return uploadthingHandler(req);
+  // Put the Response object back together to pass to the client
+  return new Response(uploadthingResponse.body, {
+    status: uploadthingResponse.status,
+    statusText: uploadthingResponse.statusText,
+    headers: uploadthingResponse.headers,
+  });
 });
-
-export type UploadRouter = ReturnType<typeof createUploadRouter>;

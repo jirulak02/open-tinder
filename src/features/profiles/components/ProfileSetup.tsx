@@ -11,6 +11,7 @@ import { Text } from "@/components/Text";
 import { TextInput } from "@/components/TextInput";
 import { uploadImages } from "@/features/profiles/utils";
 import { COLORS } from "@/styles";
+import { useAuthToken } from "@convex-dev/auth/react";
 import { api } from "@convex/_generated/api";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -25,6 +26,7 @@ type FormValues = {
 export const ProfileSetup = () => {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const createProfile = useMutation(api.profiles.createProfile);
+  const authToken = useAuthToken();
 
   const {
     control,
@@ -49,8 +51,8 @@ export const ProfileSetup = () => {
         images: data.images,
         uploadProvider: data.uploadProvider,
         convexUploadUrl,
+        authToken: authToken!,
       });
-      console.log("images", images);
 
       await createProfile({
         name: data.name,

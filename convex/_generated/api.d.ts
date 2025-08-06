@@ -22,6 +22,7 @@ import type * as profiles from "../profiles.js";
 import type * as router from "../router.js";
 import type * as swipes from "../swipes.js";
 import type * as uploadthing from "../uploadthing.js";
+import type * as uploadthingNode from "../uploadthingNode.js";
 import type * as utils from "../utils.js";
 
 /**
@@ -42,6 +43,7 @@ declare const fullApi: ApiFromModules<{
   router: typeof router;
   swipes: typeof swipes;
   uploadthing: typeof uploadthing;
+  uploadthingNode: typeof uploadthingNode;
   utils: typeof utils;
 }>;
 export declare const api: FilterApi<

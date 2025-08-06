@@ -7,18 +7,18 @@ export const uploadImages = async ({
   images,
   uploadProvider,
   convexUploadUrl,
+  authToken,
 }: {
   images: ImagePickerAsset[];
   uploadProvider: "convex" | "uploadthing";
   convexUploadUrl: string;
+  authToken: string;
 }): Promise<(Id<"_storage"> | string)[]> => {
   if (uploadProvider === "uploadthing") {
     const files: File[] = [];
 
     for (const image of images) {
       if (image.file) {
-        console.log("image.file", image.file);
-
         files.push(image.file);
 
         continue;
@@ -29,18 +29,15 @@ export const uploadImages = async ({
       const fileName = image.fileName ?? image.uri.split("/").pop() ?? `image_${Date.now()}.jpg`;
       const mimeType = imageBlob.type ?? image.type ?? "image/jpeg";
 
-      console.log("imageBlob", imageBlob);
-
       files.push(new File([imageBlob], fileName, { type: mimeType }));
     }
 
-    console.log("files", files);
-
     const uploadResult = await uploadFiles((routeRegistry) => routeRegistry.profileImagesUploader, {
       files,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
     });
-
-    console.log("uploadResult", uploadResult);
 
     return uploadResult.map((result) => result.serverData.imageUrl);
   }
