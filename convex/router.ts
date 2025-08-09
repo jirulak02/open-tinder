@@ -1,8 +1,14 @@
 import { httpRouter } from "convex/server";
 
-import { uploadthingHandler } from "./uploadthing";
+import { uploadthingHandler, uploadthingOptionsHandler } from "./uploadthing";
 
 const http = httpRouter();
+
+http.route({
+  path: "/uploadthing",
+  method: "OPTIONS",
+  handler: uploadthingOptionsHandler,
+});
 
 http.route({
   path: "/uploadthing",
