@@ -3,5 +3,5 @@ import { genUploader } from "uploadthing/client";
 import { UploadRouter } from "@convex/uploadthingNode";
 
 export const { uploadFiles } = genUploader<UploadRouter>({
-  url: `${process.env.EXPO_PUBLIC_CONVEX_SITE_URL ?? ""}/uploadthing`,
+  url: new URL(`${process.env.EXPO_PUBLIC_CONVEX_SITE_URL ?? ""}/uploadthing`),
 });

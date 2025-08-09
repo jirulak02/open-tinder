@@ -69,7 +69,7 @@ export const handleUploadthingRequest = internalAction(
     });
 
     // Put the Request object back together to pass to the uploadthing handler
-    const request = new Request(url, {
+    const request = new Request(new URL(url), {
       method,
       headers: new Headers(headers),
       body: body,
