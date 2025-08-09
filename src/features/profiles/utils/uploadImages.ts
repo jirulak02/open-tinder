@@ -15,7 +15,6 @@ export const uploadImages = async ({
   convexUploadUrl: string;
   authToken: string;
 }): Promise<(Id<"_storage"> | string)[]> => {
-  console.log("uploadImages start");
   if (uploadProvider === "uploadthing") {
     const files = await Promise.all(
       images.map(async (image) => {
@@ -35,7 +34,9 @@ export const uploadImages = async ({
       })
     );
 
-    console.log("uploadImages files", files);
+    console.log("uploadImages files", {
+      files,
+    });
 
     const uploadResult = await uploadFiles((routeRegistry) => routeRegistry.profileImagesUploader, {
       files,
@@ -44,9 +45,11 @@ export const uploadImages = async ({
       },
     });
 
-    console.log("uploadImages uploadResult", uploadResult);
+    console.log("uploadImages uploadResult", {
+      uploadResult,
+    });
 
-    return uploadResult.map((result) => result.serverData.imageUrl);
+    return uploadResult.map((result) => result?.serverData?.imageUrl ?? result?.ufsUrl);
   }
 
   const storageIds = await Promise.all(
@@ -63,8 +66,6 @@ export const uploadImages = async ({
       return storageId as Id<"_storage"> | undefined;
     })
   );
-
-  console.log("uploadImages end");
 
   return storageIds.filter((storageId): storageId is Id<"_storage"> => Boolean(storageId));
 };
