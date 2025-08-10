@@ -1,0 +1,148 @@
+diff --git a/client/index.js b/client/index.js
+index 0099165a6f5329f1025a94427911c1241c1ac395..3290ff18b845c3a81e8df26e7010d4c12c6b63b6 100644
+--- a/client/index.js
++++ b/client/index.js	
+@@ -260,20 +260,132 @@ const genUploader = (initOpts) => {
+ 	* One step upload function that both requests presigned URLs
+ 	* and then uploads the files to UploadThing
+ 	*/
+-	const typedUploadFiles = (slug, opts) => {
++	const typedUploadFiles = async (slug, opts) => {
+ 		const endpoint = typeof slug === "function" ? slug(routeRegistry) : slug;
+ 		const fetchFn = initOpts?.fetch ?? window.fetch;
+-		return uploadFilesInternal(endpoint, {
+-			...opts,
+-			skipPolling: {},
+-			url: resolveMaybeUrlArg(initOpts?.url),
+-			package: initOpts?.package ?? "uploadthing/client",
+-			input: opts.input
+-		}).pipe(Micro.provideService(FetchContext, fetchFn), (effect) => Micro.runPromiseExit(effect, opts.signal && { signal: opts.signal })).then((exit) => {
+-			if (exit._tag === "Success") return exit.value;
+-			else if (exit.cause._tag === "Interrupt") throw new UploadAbortedError$1();
+-			throw Micro.causeSquash(exit.cause);
++		const traceHeaders = generateTraceHeaders();
++		const baseUrl = resolveMaybeUrlArg(initOpts?.url);
++		const requestUrl = new URL(String(baseUrl));
++		requestUrl.searchParams.set("actionType", "upload");
++		requestUrl.searchParams.set("slug", String(endpoint));
++		const filesPayload = opts.files.map((f) => ({
++			name: f.name,
++			size: f.size,
++			type: f.type,
++			lastModified: f.lastModified,
++		}));
++		const headers = {
++			"content-type": "application/json",
++			"x-uploadthing-package": initOpts?.package ?? "uploadthing/client",
++			"x-uploadthing-version": version$1,
++			b3: traceHeaders.b3,
++			traceparent: traceHeaders.traceparent,
++			...(opts.headers ?? {}),
++		};
++		const response = await fetchFn(requestUrl, {
++			method: "POST",
++			headers,
++			body: JSON.stringify({
++				input: "input" in opts ? opts.input : null,
++				files: filesPayload,
++			}),
+ 		});
++		const presigneds = await response.json();
++		const totalSize = opts.files.reduce((acc, f) => acc + f.size, 0);
++		let totalLoaded = 0;
++
++		const uploadOne = async (file, presigned) => {
++			const head = await fetchFn(presigned.url, {
++				method: "HEAD",
++				headers: {
++					"x-uploadthing-version": version$1,
++					b3: traceHeaders.b3,
++					traceparent: traceHeaders.traceparent,
++				},
++			});
++			const start = parseInt(head.headers.get("x-ut-range-start") ?? "0", 10);
++
++			return new Promise((resolve, reject) => {
++				const xhr = new XMLHttpRequest();
++				xhr.open("PUT", presigned.url, true);
++				xhr.setRequestHeader("Range", `bytes=${start}-`);
++				xhr.setRequestHeader("x-uploadthing-version", version$1);
++				xhr.setRequestHeader("b3", traceHeaders.b3);
++				xhr.setRequestHeader("traceparent", traceHeaders.traceparent);
++				xhr.responseType = "json";
++				let prevLoaded = 0;
++				xhr.upload.addEventListener("progress", ({ loaded }) => {
++					const delta = loaded - prevLoaded;
++					prevLoaded = loaded;
++					totalLoaded += delta;
++					opts.onUploadProgress?.({
++						file,
++						delta,
++						loaded: loaded + start,
++						totalLoaded,
++						totalProgress: Math.round((totalLoaded / totalSize) * 100),
++					});
++				});
++				xhr.onload = () => {
++					if (xhr.status >= 200 && xhr.status < 300 && isRecord(xhr.response)) {
++						if (hasProperty(xhr.response, "error")) {
++							return reject(
++								new UploadThingError({
++									code: "UPLOAD_FAILED",
++									message: String(xhr.response.error),
++									data: xhr.response,
++								})
++							);
++						}
++						return resolve(xhr.response);
++					}
++					reject(
++						new UploadThingError({
++							code: "UPLOAD_FAILED",
++							message: `XHR failed ${xhr.status} ${xhr.statusText}`,
++							data: xhr.response,
++						})
++					);
++				};
++				xhr.onerror = () =>
++					reject(new UploadThingError({ code: "UPLOAD_FAILED" }));
++				const formData = new FormData();
++				formData.append("file", start > 0 ? file.slice(start) : file);
++				xhr.send(formData);
++			});
++		};
++
++		const results = await Promise.all(
++			presigneds.map(async (presigned, i) => {
++				const file = opts.files[i];
++				if (!file) return undefined;
++				const uploadResponse = await uploadOne(file, presigned);
++				return {
++					name: file.name,
++					size: file.size,
++					key: presigned.key,
++					lastModified: file.lastModified,
++					serverData: uploadResponse.serverData,
++					get url() {
++						logDeprecationWarning(
++							"`file.url` is deprecated and will be removed in uploadthing v9. Use `file.ufsUrl` instead."
++						);
++						return uploadResponse.url;
++					},
++					get appUrl() {
++						logDeprecationWarning(
++							"`file.appUrl` is deprecated and will be removed in uploadthing v9. Use `file.ufsUrl` instead."
++						);
++						return uploadResponse.appUrl;
++					},
++					ufsUrl: uploadResponse.ufsUrl,
++					customId: presigned.customId,
++					type: file.type,
++					fileHash: uploadResponse.fileHash,
++				};
++			})
++		);
++		return results;
+ 	};
+ 	return {
+ 		uploadFiles: typedUploadFiles,
