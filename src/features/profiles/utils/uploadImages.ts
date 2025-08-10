@@ -34,19 +34,11 @@ export const uploadImages = async ({
       })
     );
 
-    console.log("uploadImages files", {
-      files,
-    });
-
     const uploadResult = await uploadFiles((routeRegistry) => routeRegistry.profileImagesUploader, {
       files,
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
-    });
-
-    console.log("uploadImages uploadResult", {
-      uploadResult,
     });
 
     return uploadResult.map((result) => result?.serverData?.imageUrl ?? result?.ufsUrl);
