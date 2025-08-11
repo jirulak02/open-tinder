@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     height: 450,
   },
   top: {
-    paddingTop: 50,
     marginHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-between",
