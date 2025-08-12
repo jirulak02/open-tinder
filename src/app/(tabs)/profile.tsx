@@ -11,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import { HorizontalScrollIndicator } from "@/components/HorizontalScrollIndicator";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { Text } from "@/components/Text";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
@@ -77,6 +78,11 @@ const ProfileScreen = () => {
                 <Image source={{ uri: image }} style={styles.photo} />
               </Pressable>
             )}
+          />
+          <HorizontalScrollIndicator
+            total={profile.images.length}
+            currentIndex={currentIndex}
+            onPress={goToIndex}
           />
         </View>
         <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
