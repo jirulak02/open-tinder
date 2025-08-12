@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import {
   FlatList,
+  GestureResponderEvent,
   Image,
   Platform,
   Pressable,
@@ -34,12 +35,12 @@ export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) =
     flatListRef.current?.scrollToIndex({ index, animated: true });
   };
 
-  const handleNextImage = () => {
-    goToIndex(currentIndex + 1);
-  };
-
-  const handlePrevImage = () => {
-    goToIndex(currentIndex - 1);
+  const handleImageChange = (e: GestureResponderEvent) => {
+    if (e.nativeEvent.locationX < DIMENSIONS.width / 2) {
+      goToIndex(currentIndex - 1);
+    } else {
+      goToIndex(currentIndex + 1);
+    }
   };
 
   return (
@@ -48,16 +49,21 @@ export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) =
         ref={flatListRef}
         data={images}
         keyExtractor={(uri) => uri}
-        renderItem={({ item }) => <Image source={{ uri: item }} style={styles.image} />}
         horizontal
         pagingEnabled
         scrollEnabled={false}
         showsHorizontalScrollIndicator={false}
+        getItemLayout={(_, index) => ({
+          length: DIMENSIONS.width,
+          offset: DIMENSIONS.width * index,
+          index,
+        })}
+        renderItem={({ item: image }) => (
+          <Pressable onPress={handleImageChange}>
+            <Image source={{ uri: image }} style={styles.image} />
+          </Pressable>
+        )}
       />
-      <View style={styles.changeImageOverlay}>
-        <Pressable style={styles.leftHitbox} onPress={handlePrevImage} />
-        <Pressable style={styles.rightHitbox} onPress={handleNextImage} />
-      </View>
       {previousSwipeData && (
         <TouchableOpacity onPress={handleRewind} style={styles.rewindButton}>
           <FontAwesome6 name="arrow-rotate-left" size={24} color={COLORS.white} />

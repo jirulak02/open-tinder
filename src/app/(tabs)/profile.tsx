@@ -2,6 +2,7 @@ import { useQuery } from "convex/react";
 import { useRef, useState } from "react";
 import {
   FlatList,
+  GestureResponderEvent,
   Image,
   Pressable,
   ScrollView,
@@ -32,12 +33,12 @@ const ProfileScreen = () => {
     flatListRef.current?.scrollToIndex({ index, animated: true });
   };
 
-  const handleNextImage = () => {
-    goToIndex(currentIndex + 1);
-  };
-
-  const handlePrevImage = () => {
-    goToIndex(currentIndex - 1);
+  const handleImageChange = (e: GestureResponderEvent) => {
+    if (e.nativeEvent.locationX < DIMENSIONS.width / 2) {
+      goToIndex(currentIndex - 1);
+    } else {
+      goToIndex(currentIndex + 1);
+    }
   };
 
   if (profile === undefined) {
@@ -59,16 +60,24 @@ const ProfileScreen = () => {
           <FlatList
             ref={flatListRef}
             data={profile.images}
+            keyExtractor={(uri) => uri}
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
-            keyExtractor={(uri) => uri}
-            renderItem={({ item: image }) => <Image source={{ uri: image }} style={styles.photo} />}
+            getItemLayout={(_, index) => ({
+              length: DIMENSIONS.width,
+              offset: DIMENSIONS.width * index,
+              index,
+            })}
+            onMomentumScrollEnd={(e) =>
+              setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / DIMENSIONS.width))
+            }
+            renderItem={({ item: image }) => (
+              <Pressable onPress={handleImageChange}>
+                <Image source={{ uri: image }} style={styles.photo} />
+              </Pressable>
+            )}
           />
-          <View style={styles.changeImageOverlay}>
-            <Pressable style={styles.leftHitbox} onPress={handlePrevImage} />
-            <Pressable style={styles.rightHitbox} onPress={handleNextImage} />
-          </View>
         </View>
         <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
         <View style={styles.actionsProfile}>
@@ -118,16 +127,6 @@ const styles = StyleSheet.create({
   photoContainer: {
     position: "relative",
     height: 450,
-  },
-  changeImageOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    flexDirection: "row",
-  },
-  leftHitbox: {
-    flex: 1,
-  },
-  rightHitbox: {
-    flex: 1,
   },
   top: {
     marginHorizontal: 10,
