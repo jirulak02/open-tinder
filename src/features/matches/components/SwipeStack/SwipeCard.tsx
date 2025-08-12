@@ -1,9 +1,17 @@
-import { useState } from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  FlatList,
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { Text } from "@/components/Text";
 import type { PreviousSwipeData } from "@/features/matches/types";
-import { COLORS } from "@/styles";
+import { COLORS, DIMENSIONS } from "@/styles";
 import type { Profile } from "@convex/profiles";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
@@ -16,20 +24,45 @@ type Props = {
 export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) => {
   const { name, age, description, images } = profile;
 
-  const [currentImage, setCurrentImage] = useState(images[0]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef<FlatList<string>>(null);
 
-  void setCurrentImage;
+  const goToIndex = (index: number) => {
+    if (index < 0 || index >= images.length) return;
+
+    setCurrentIndex(index);
+    flatListRef.current?.scrollToIndex({ index, animated: true });
+  };
+
+  const handleNextImage = () => {
+    goToIndex(currentIndex + 1);
+  };
+
+  const handlePrevImage = () => {
+    goToIndex(currentIndex - 1);
+  };
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: currentImage }} style={styles.image} />
-      <TouchableOpacity
-        onPress={handleRewind}
-        disabled={!previousSwipeData}
-        style={[styles.rewindButton, !previousSwipeData && styles.disabledRewindButton]}
-      >
-        <FontAwesome6 name="arrow-rotate-left" size={24} color={COLORS.white} />
-      </TouchableOpacity>
+      <FlatList
+        ref={flatListRef}
+        data={images}
+        keyExtractor={(uri) => uri}
+        renderItem={({ item }) => <Image source={{ uri: item }} style={styles.image} />}
+        horizontal
+        pagingEnabled
+        scrollEnabled={false}
+        showsHorizontalScrollIndicator={false}
+      />
+      <View style={styles.changeImageOverlay}>
+        <Pressable style={styles.leftHitbox} onPress={handlePrevImage} />
+        <Pressable style={styles.rightHitbox} onPress={handleNextImage} />
+      </View>
+      {previousSwipeData && (
+        <TouchableOpacity onPress={handleRewind} style={styles.rewindButton}>
+          <FontAwesome6 name="arrow-rotate-left" size={24} color={COLORS.white} />
+        </TouchableOpacity>
+      )}
       <View style={styles.infoContainer}>
         <Text style={styles.name}>
           {name} - {age}
@@ -50,6 +83,17 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   image: {
+    width: DIMENSIONS.width,
+    height: Platform.OS === "web" ? DIMENSIONS.height - 113 : "100%",
+  },
+  changeImageOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: "row",
+  },
+  leftHitbox: {
+    flex: 1,
+  },
+  rightHitbox: {
     flex: 1,
   },
   rewindButton: {

@@ -1,5 +1,14 @@
 import { useQuery } from "convex/react";
-import { FlatList, Image, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { Text } from "@/components/Text";
@@ -12,6 +21,24 @@ import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
   const profile = useQuery(api.profiles.getCurrentUserProfile);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const flatListRef = useRef<FlatList<string>>(null);
+
+  const goToIndex = (index: number) => {
+    if (index < 0 || !profile || index >= profile.images.length) return;
+
+    setCurrentIndex(index);
+    flatListRef.current?.scrollToIndex({ index, animated: true });
+  };
+
+  const handleNextImage = () => {
+    goToIndex(currentIndex + 1);
+  };
+
+  const handlePrevImage = () => {
+    goToIndex(currentIndex - 1);
+  };
 
   if (profile === undefined) {
     return <LoadingIndicator />;
@@ -28,8 +55,9 @@ const ProfileScreen = () => {
           <Text style={styles.title}>Profile</Text>
           <SignOutButton />
         </View>
-        <View style={{ position: "relative", height: 450 }}>
+        <View style={styles.photoContainer}>
           <FlatList
+            ref={flatListRef}
             data={profile.images}
             horizontal
             pagingEnabled
@@ -37,6 +65,10 @@ const ProfileScreen = () => {
             keyExtractor={(uri) => uri}
             renderItem={({ item: image }) => <Image source={{ uri: image }} style={styles.photo} />}
           />
+          <View style={styles.changeImageOverlay}>
+            <Pressable style={styles.leftHitbox} onPress={handlePrevImage} />
+            <Pressable style={styles.rightHitbox} onPress={handleNextImage} />
+          </View>
         </View>
         <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
         <View style={styles.actionsProfile}>
@@ -82,6 +114,20 @@ const styles = StyleSheet.create({
   photo: {
     width: DIMENSIONS.width,
     height: 450,
+  },
+  photoContainer: {
+    position: "relative",
+    height: 450,
+  },
+  changeImageOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: "row",
+  },
+  leftHitbox: {
+    flex: 1,
+  },
+  rightHitbox: {
+    flex: 1,
   },
   top: {
     marginHorizontal: 10,
