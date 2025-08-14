@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { useRef, useState } from "react";
 import {
   FlatList,
@@ -10,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import { HorizontalScrollIndicator } from "@/components/HorizontalScrollIndicator";
 import { Text } from "@/components/Text";
 import type { PreviousSwipeData } from "@/features/matches/types";
 import { COLORS, DIMENSIONS } from "@/styles";
@@ -64,11 +66,23 @@ export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) =
           </Pressable>
         )}
       />
+      <HorizontalScrollIndicator
+        total={images.length}
+        currentIndex={currentIndex}
+        onPress={goToIndex}
+      />
       {previousSwipeData && (
         <TouchableOpacity onPress={handleRewind} style={styles.rewindButton}>
           <FontAwesome6 name="arrow-rotate-left" size={24} color={COLORS.white} />
         </TouchableOpacity>
       )}
+      <LinearGradient
+        colors={[`${COLORS.black}80`, `${COLORS.black}80`, `${COLORS.black}00`]}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0 }}
+        style={styles.gradientOverlay}
+        pointerEvents="none"
+      />
       <View style={styles.infoContainer}>
         <Text style={styles.name}>
           {name} - {age}
@@ -91,6 +105,13 @@ const styles = StyleSheet.create({
   image: {
     width: DIMENSIONS.width,
     height: Platform.OS === "web" ? DIMENSIONS.height - 113 : "100%",
+  },
+  gradientOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 200,
   },
   changeImageOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -122,8 +143,6 @@ const styles = StyleSheet.create({
     right: 0,
     padding: 32,
     gap: 16,
-    backgroundColor: COLORS.black,
-    opacity: 0.7,
   },
   name: {
     color: COLORS.white,
