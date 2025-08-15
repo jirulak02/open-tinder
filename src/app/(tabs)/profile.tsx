@@ -1,46 +1,18 @@
 import { useQuery } from "convex/react";
-import { useRef, useState } from "react";
-import {
-  FlatList,
-  GestureResponderEvent,
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
-import { HorizontalScrollIndicator } from "@/components/HorizontalScrollIndicator";
+import { Card } from "@/components/Card";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { Text } from "@/components/Text";
 import { SignOutButton } from "@/features/auth/components/SignOutButton";
-import { ProfileItem } from "@/features/profiles/components/ProfileItem";
+import { ProfileImages } from "@/features/profiles/components/ProfileImages";
+import { ProfileInfo } from "@/features/profiles/components/ProfileInfo";
 import { ProfileSetup } from "@/features/profiles/components/ProfileSetup";
-import { COLORS, DIMENSIONS } from "@/styles";
+import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
-import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
   const profile = useQuery(api.profiles.getCurrentUserProfile);
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const flatListRef = useRef<FlatList<string>>(null);
-
-  const goToIndex = (index: number) => {
-    if (index < 0 || !profile || index >= profile.images.length) return;
-
-    setCurrentIndex(index);
-    flatListRef.current?.scrollToIndex({ index, animated: true });
-  };
-
-  const handleImageChange = (e: GestureResponderEvent) => {
-    if (e.nativeEvent.locationX < DIMENSIONS.width / 2) {
-      goToIndex(currentIndex - 1);
-    } else {
-      goToIndex(currentIndex + 1);
-    }
-  };
 
   if (profile === undefined) {
     return <LoadingIndicator />;
@@ -51,88 +23,24 @@ const ProfileScreen = () => {
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
-      <View style={styles.containerProfile}>
-        <View style={styles.top}>
-          <Text style={styles.title}>Profile</Text>
-          <SignOutButton />
-        </View>
-        <View style={styles.photoContainer}>
-          <FlatList
-            ref={flatListRef}
-            data={profile.images}
-            keyExtractor={(uri) => uri}
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            getItemLayout={(_, index) => ({
-              length: DIMENSIONS.width,
-              offset: DIMENSIONS.width * index,
-              index,
-            })}
-            onMomentumScrollEnd={(e) =>
-              setCurrentIndex(Math.round(e.nativeEvent.contentOffset.x / DIMENSIONS.width))
-            }
-            renderItem={({ item: image }) => (
-              <Pressable onPress={handleImageChange}>
-                <Image source={{ uri: image }} style={styles.photo} />
-              </Pressable>
-            )}
-          />
-          <HorizontalScrollIndicator
-            total={profile.images.length}
-            currentIndex={currentIndex}
-            onPress={goToIndex}
-          />
-        </View>
-        <ProfileItem name={profile.name} age={profile.age} description={profile.description} />
-        <View style={styles.actionsProfile}>
-          <TouchableOpacity style={styles.circledButton}>
-            <Ionicons name="pencil" size={20} color={COLORS.white} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.roundedButton}>
-            <Ionicons name="cog" size={15} color={COLORS.white} />
-            <Text style={styles.textButton}>Settings</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={[styles.containerProfileItem, { marginTop: 20 }]}>
-          <Text style={[styles.name, { fontSize: 16, paddingBottom: 15 }]}>
-            Profile Information
-          </Text>
-          <View style={styles.info}>
-            <Ionicons name="person" color={COLORS.gray} size={15} style={styles.IoniconsProfile} />
-            <Text style={styles.infoContent}>Name: {profile.name}</Text>
-          </View>
-          <View style={styles.info}>
-            <Ionicons
-              name="calendar"
-              color={COLORS.gray}
-              size={15}
-              style={styles.IoniconsProfile}
-            />
-            <Text style={styles.infoContent}>Age: {profile.age} years old</Text>
-          </View>
-          <View style={styles.info}>
-            <Ionicons name="heart" color={COLORS.pink} size={15} style={styles.IoniconsProfile} />
-            <Text style={styles.infoContent}>Looking for connections</Text>
-          </View>
-        </View>
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <Text style={styles.title}>Profile</Text>
+        <SignOutButton />
       </View>
-    </ScrollView>
+      <ScrollView>
+        <ProfileImages profile={profile} />
+        <Card style={styles.infoCard}>
+          <ProfileInfo profile={profile} />
+        </Card>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  containerProfile: {
-    marginHorizontal: 0,
-  },
-  photo: {
-    width: DIMENSIONS.width,
-    height: 450,
-  },
-  photoContainer: {
-    position: "relative",
-    height: 450,
+  container: {
+    flex: 1,
   },
   top: {
     marginHorizontal: 10,
@@ -145,68 +53,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     color: COLORS.gray,
   },
-  actionsProfile: {
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  textButton: {
-    fontSize: 15,
-    color: COLORS.white,
-    paddingLeft: 5,
-  },
-  circledButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: COLORS.pink,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 10,
-  },
-  roundedButton: {
-    justifyContent: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 10,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#ff7158",
-    paddingHorizontal: 20,
-  },
-  containerProfileItem: {
-    backgroundColor: COLORS.white,
-    paddingHorizontal: 10,
-    paddingBottom: 25,
-    margin: 20,
-    borderRadius: 8,
+  infoCard: {
+    marginHorizontal: 20,
     marginTop: -65,
-    elevation: 1,
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    shadowColor: "#000000",
-    shadowOffset: { height: 0, width: 0 },
-  },
-  name: {
-    paddingTop: 25,
-    paddingBottom: 5,
-    color: COLORS.gray,
-    fontSize: 15,
-    textAlign: "center",
-  },
-  info: {
-    paddingVertical: 8,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  IoniconsProfile: {
-    fontSize: 12,
-    color: COLORS.gray,
-    paddingHorizontal: 10,
-  },
-  infoContent: {
-    color: COLORS.gray,
-    fontSize: 13,
   },
 });
 

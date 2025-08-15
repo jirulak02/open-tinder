@@ -1,8 +1,9 @@
 import { useConvexAuth } from "convex/react";
 import { TouchableOpacity } from "react-native";
 
-import { Text } from "@/components/Text";
+import { GradientIcon } from "@/components/GradientIcon";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { Entypo } from "@expo/vector-icons";
 
 export const SignOutButton = () => {
   const { isAuthenticated } = useConvexAuth();
@@ -14,7 +15,7 @@ export const SignOutButton = () => {
 
   return (
     <TouchableOpacity onPress={signOut}>
-      <Text>Sign out</Text>
+      <GradientIcon icon={Entypo} name="log-out" size={20} />
     </TouchableOpacity>
   );
 };
