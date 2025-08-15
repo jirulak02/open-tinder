@@ -31,7 +31,7 @@ const MatchesScreen = () => {
         renderItem={({ item: match }) => (
           <Link
             href={{
-              pathname: "/(tabs)/matches/[userId]",
+              pathname: "/(tabs)/user/[userId]",
               params: {
                 userId: match.matchedProfile.userId,
               },

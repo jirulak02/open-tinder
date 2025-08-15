@@ -2,10 +2,16 @@ import { Tabs } from "expo-router";
 import { StyleSheet } from "react-native";
 
 import { TabBarIcon } from "@/components/TabBarIcon";
+import { TabProvider, useTabContext } from "@/contexts/TabContext";
 import { COLORS } from "@/styles";
 import Fontisto from "@expo/vector-icons/Fontisto";
 
-const TabLayout = () => {
+const TabLayoutContent = () => {
+  const { activeParentTab, isOnUserProfile } = useTabContext();
+
+  const getIsFocused = (tab: string, focused: boolean) =>
+    isOnUserProfile ? activeParentTab === tab : focused;
+
   return (
     <Tabs
       screenOptions={{
@@ -21,7 +27,12 @@ const TabLayout = () => {
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} text="Home" iconName="tinder" icon={Fontisto} />
+            <TabBarIcon
+              focused={getIsFocused("index", focused)}
+              text="Home"
+              iconName="tinder"
+              icon={Fontisto}
+            />
           ),
         }}
       />
@@ -33,7 +44,11 @@ const TabLayout = () => {
             pathname: "/(tabs)/matches",
           },
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="heart" text="Matches" />
+            <TabBarIcon
+              focused={getIsFocused("matches", focused)}
+              iconName="heart"
+              text="Matches"
+            />
           ),
         }}
       />
@@ -45,7 +60,11 @@ const TabLayout = () => {
             pathname: "/(tabs)/chats",
           },
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="chatbubble" text="Chats" />
+            <TabBarIcon
+              focused={getIsFocused("chats", focused)}
+              iconName="chatbubble"
+              text="Chats"
+            />
           ),
         }}
       />
@@ -54,11 +73,29 @@ const TabLayout = () => {
         options={{
           title: "Profile",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} iconName="person" text="Profile" />
+            <TabBarIcon
+              focused={getIsFocused("profile", focused)}
+              iconName="person"
+              text="Profile"
+            />
           ),
         }}
       />
+      <Tabs.Screen
+        name="user/[userId]"
+        options={{
+          href: null, // Hide from the tab bar
+        }}
+      />
     </Tabs>
+  );
+};
+
+const TabLayout = () => {
+  return (
+    <TabProvider>
+      <TabLayoutContent />
+    </TabProvider>
   );
 };
 

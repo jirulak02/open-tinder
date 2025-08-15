@@ -11,7 +11,7 @@ import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 
-const MatchProfileScreen = () => {
+const UserProfileScreen = () => {
   const { userId } = useLocalSearchParams<{ userId: Id<"users"> }>();
 
   const profile = useQuery(api.profiles.getProfileById, { userId });
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MatchProfileScreen;
+export default UserProfileScreen;
