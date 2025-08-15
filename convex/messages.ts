@@ -32,6 +32,35 @@ export const getMessages = query({
   },
 });
 
+export const getLastMessage = query({
+  args: {
+    matchId: v.id("matches"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const match = await ctx.db.get(args.matchId);
+
+    if (!match) {
+      throw new Error("Match not found");
+    }
+
+    if (match.user1Id !== userId && match.user2Id !== userId) {
+      throw new Error("Not authorized to view these messages");
+    }
+
+    return await ctx.db
+      .query("messages")
+      .withIndex("by_match_and_sentAt", (q) => q.eq("matchId", args.matchId))
+      .order("desc")
+      .first();
+  },
+});
+
 export const sendMessage = mutation({
   args: {
     matchId: v.id("matches"),

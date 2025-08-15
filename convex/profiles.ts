@@ -47,6 +47,40 @@ export const getProfileById = query({
   },
 });
 
+export const getProfileByMatchId = query({
+  args: {
+    matchId: v.id("matches"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const match = await ctx.db.get(args.matchId);
+
+    if (!match) {
+      throw new Error("Match not found");
+    }
+
+    if (match.user1Id !== userId && match.user2Id !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_user", (q) =>
+        q.eq("userId", match.user1Id === userId ? match.user2Id : match.user1Id)
+      )
+      .unique();
+
+    if (!profile) return null;
+
+    return await processProfile(ctx, profile);
+  },
+});
+
 export const getPotentialMatches = query({
   args: {},
   handler: async (ctx) => {

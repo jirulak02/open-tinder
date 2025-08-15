@@ -4,11 +4,12 @@ export const COLORS = {
   pink: "#fd2b7b",
   orange: "#ff7158",
   white: "#ffffff",
-  gray: "#424242",
   black: "#000000",
   blue: "#3b82f6",
   red: "#ef4444",
+  gray: "#424242",
   lightGray: "#9ca3af",
+  subtleGray: "#e5e5e5",
 } as const;
 
 export const GRADIENT = {

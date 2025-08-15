@@ -34,7 +34,9 @@ const applicationTables = {
     senderId: v.id("users"),
     content: v.string(),
     sentAt: v.number(),
-  }).index("by_match", ["matchId"]),
+  })
+    .index("by_match", ["matchId"])
+    .index("by_match_and_sentAt", ["matchId", "sentAt"]),
 };
 
 export default defineSchema({

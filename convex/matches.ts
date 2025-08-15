@@ -1,6 +1,12 @@
+import { Doc } from "./_generated/dataModel";
 import { query } from "./_generated/server";
+import { Profile } from "./profiles";
 import { processProfile } from "./utils";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+export type Match = Doc<"matches"> & {
+  matchedProfile: Profile;
+};
 
 export const getMatches = query({
   args: {},
