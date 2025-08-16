@@ -1,6 +1,6 @@
 import { Authenticated, ConvexReactClient, Unauthenticated, useQuery } from "convex/react";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { StatusBar } from "expo-status-bar";
 import { Platform, StyleSheet, View } from "react-native";
@@ -50,7 +50,9 @@ const RootLayoutContent = () => {
                 headerLeft: () => null,
                 headerTitle: () => (
                   <View style={styles.header}>
-                    <Logo isGradient size={28} />
+                    <Link href="/(tabs)">
+                      <Logo isGradient size={28} />
+                    </Link>
                   </View>
                 ),
               }}

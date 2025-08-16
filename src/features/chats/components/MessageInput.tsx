@@ -38,14 +38,15 @@ export const MessageInput = ({ matchId }: Props) => {
       setIsSending(false);
     }
   };
+
   return (
-    <View style={styles.inputContainer}>
+    <View style={styles.container}>
       <TextInput
         style={styles.textInput}
         value={newMessage}
         onChangeText={setNewMessage}
         placeholder="Type a message..."
-        placeholderTextColor={COLORS.gray}
+        placeholderTextColor={COLORS.lightGray}
         multiline
         maxLength={1000}
         onSubmitEditing={handleSendMessage}
@@ -71,7 +72,7 @@ export const MessageInput = ({ matchId }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  container: {
     flexDirection: "row",
     alignItems: "flex-end",
     paddingVertical: 10,
@@ -96,9 +97,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-  },
-  sendButtonActive: {
-    backgroundColor: COLORS.pink,
   },
   sendButtonInactive: {
     backgroundColor: COLORS.subtleGray,

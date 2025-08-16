@@ -40,9 +40,6 @@ const TabLayoutContent = () => {
         name="matches"
         options={{
           title: "Matches",
-          href: {
-            pathname: "/(tabs)/matches",
-          },
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={getIsFocused("matches", focused)}
@@ -56,9 +53,6 @@ const TabLayoutContent = () => {
         name="chats"
         options={{
           title: "Chats",
-          href: {
-            pathname: "/(tabs)/chats",
-          },
           tabBarIcon: ({ focused }) => (
             <TabBarIcon
               focused={getIsFocused("chats", focused)}

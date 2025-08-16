@@ -45,6 +45,7 @@ export const MatchItem = ({ matchId, profile }: Props) => {
           pathname: "/(tabs)/user/[userId]",
           params: {
             userId: profile.userId,
+            from: "/(tabs)/matches",
           },
         }}
         asChild
@@ -63,6 +64,7 @@ export const MatchItem = ({ matchId, profile }: Props) => {
             pathname: "/(tabs)/chats/[matchId]",
             params: {
               matchId,
+              from: "/(tabs)/matches",
             },
           }}
           asChild

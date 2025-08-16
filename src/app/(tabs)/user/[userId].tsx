@@ -2,6 +2,7 @@ import { useQuery } from "convex/react";
 import { useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 
+import { BackButton } from "@/components/BackButton";
 import { Card } from "@/components/Card";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { Text } from "@/components/Text";
@@ -12,8 +13,10 @@ import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 
 const UserProfileScreen = () => {
-  const { userId } = useLocalSearchParams<{ userId: Id<"users"> }>();
-
+  const { userId, from } = useLocalSearchParams<{
+    userId: Id<"users">;
+    from?: string;
+  }>();
   const profile = useQuery(api.profiles.getProfileById, { userId });
 
   if (!profile) {
@@ -23,6 +26,7 @@ const UserProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
+        <BackButton fromHref={from} />
         <Text style={styles.title}>{profile.name}</Text>
       </View>
       <ScrollView>
@@ -40,18 +44,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   top: {
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    gap: 12,
   },
   title: {
-    paddingBottom: 10,
     fontSize: 22,
     color: COLORS.gray,
   },
   infoCard: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     marginTop: -60,
   },
 });

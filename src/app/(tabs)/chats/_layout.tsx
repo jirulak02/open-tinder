@@ -5,7 +5,10 @@ import { COLORS } from "@/styles";
 
 const ChatsLayout = () => {
   return (
-    <Stack screenOptions={{ headerShown: false, contentStyle: styles.content }}>
+    <Stack
+      initialRouteName="index"
+      screenOptions={{ headerShown: false, contentStyle: styles.content }}
+    >
       <Stack.Screen name="index" options={{ title: "Chats" }} />
       <Stack.Screen name="[matchId]" />
     </Stack>

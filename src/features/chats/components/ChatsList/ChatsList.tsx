@@ -28,7 +28,9 @@ export const ChatsList = () => {
           <Link
             href={{
               pathname: "/(tabs)/chats/[matchId]",
-              params: { matchId: match._id },
+              params: {
+                matchId: match._id,
+              },
             }}
             asChild
           >

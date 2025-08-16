@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingHorizontal: 10,
-    paddingBottom: 10,
     fontSize: 22,
     color: COLORS.gray,
   },

@@ -43,18 +43,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   top: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   title: {
-    paddingBottom: 10,
     fontSize: 22,
     color: COLORS.gray,
   },
   infoCard: {
-    marginHorizontal: 10,
+    marginHorizontal: 20,
     marginTop: -60,
   },
 });
