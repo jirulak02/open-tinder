@@ -20,7 +20,7 @@ export const MatchesList = () => {
       keyExtractor={(match) => match._id}
       renderItem={({ item: match }) => (
         <View style={styles.item}>
-          <MatchItem profile={match.matchedProfile} />
+          <MatchItem matchId={match._id} profile={match.matchedProfile} />
         </View>
       )}
     />

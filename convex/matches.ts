@@ -1,5 +1,7 @@
+import { v } from "convex/values";
+
 import { Doc } from "./_generated/dataModel";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { Profile } from "./profiles";
 import { processProfile } from "./utils";
 import { getAuthUserId } from "@convex-dev/auth/server";
@@ -40,5 +42,44 @@ export const getMatches = query({
         };
       })
     );
+  },
+});
+
+export const revokeMatch = mutation({
+  args: {
+    matchId: v.id("matches"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+
+    const match = await ctx.db.get(args.matchId);
+
+    if (!match) {
+      throw new Error("Match not found");
+    }
+
+    if (match.user1Id !== userId && match.user2Id !== userId) {
+      throw new Error("Unauthorized");
+    }
+
+    const otherUserId = match.user1Id === userId ? match.user2Id : match.user1Id;
+    const swipe = await ctx.db
+      .query("swipes")
+      .withIndex("by_swiper_and_swiped", (q) =>
+        q.eq("swiperId", userId).eq("swipedId", otherUserId)
+      )
+      .unique();
+
+    if (swipe) {
+      await ctx.db.patch(swipe._id, {
+        isLike: false,
+      });
+    }
+
+    await ctx.db.delete(args.matchId);
   },
 });
