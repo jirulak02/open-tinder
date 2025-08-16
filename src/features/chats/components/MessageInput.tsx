@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const MessageInput = ({ matchId }: Props) => {
-  const sendMessage = useMutation(api.messages.sendMessage);
+  const sendMessage = useMutation(api.chats.sendMessage);
 
   const [newMessage, setNewMessage] = useState("");
   const [isSending, setIsSending] = useState(false);

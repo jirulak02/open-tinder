@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const ChatItem = ({ profile, matchId }: Props) => {
-  const lastMessage = useQuery(api.messages.getLastMessage, {
+  const lastMessage = useQuery(api.chats.getLastMessage, {
     matchId,
   });
 

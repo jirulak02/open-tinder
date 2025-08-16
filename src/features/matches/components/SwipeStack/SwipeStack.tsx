@@ -20,7 +20,7 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
   const [previousSwipeData, setPreviousSwipeData] = useState<PreviousSwipeData | null>(null);
 
   const stackProfiles = [previousSwipeData?.profile, ...potentialMatches].filter(
-    (profile): profile is Profile => Boolean(profile)
+    (profile): profile is Profile | PreviousSwipeData["profile"] => Boolean(profile)
   );
 
   const handleSwipeEnded = async (profile: Profile, direction: SwipeDirection) => {
@@ -30,11 +30,16 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
     });
 
     setPreviousSwipeData({
-      profile,
+      profile: {
+        ...profile,
+        // Add tempId to avoid duplicate keys in the stack if someone revokes the latest match
+        tempId: `temp_${profile._id}`,
+      },
       direction,
       swipeId: swipeResult.swipeId,
       matchId: swipeResult.matchId,
     });
+    // Set only the last swipe direction, because we removed one profile from potentialMatches by the swipe
     setSwipes([direction]);
 
     if (swipeResult.matchId) {
@@ -57,12 +62,12 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
     <SwipeableCardStack
       data={stackProfiles}
       swipes={swipes}
-      keyExtractor={(item) => item._id}
+      keyExtractor={(item) => ("tempId" in item ? item.tempId : item._id)}
       onSwipeEnded={handleSwipeEnded}
       renderCard={(profile) => (
         <SwipeCard
           profile={profile}
-          previousSwipeData={swipes.length > 0 ? previousSwipeData : null}
+          hasPreviousSwipe={swipes.length > 0}
           handleRewind={handleRewind}
         />
       )}

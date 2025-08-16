@@ -13,7 +13,7 @@ type Props = {
 };
 
 export const MessagesList = ({ matchId }: Props) => {
-  const messages = useQuery(api.messages.getMessages, { matchId });
+  const messages = useQuery(api.chats.getMessages, { matchId });
   const currentUser = useQuery(api.auth.loggedInUser);
 
   const flatListRef = useRef<FlatList>(null);

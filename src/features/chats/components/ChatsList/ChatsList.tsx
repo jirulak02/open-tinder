@@ -8,15 +8,15 @@ import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
 
 export const ChatsList = () => {
-  const matches = useQuery(api.matches.getMatches);
+  const chats = useQuery(api.chats.getChats);
 
-  if (!matches) {
+  if (!chats) {
     return <LoadingIndicator />;
   }
 
   return (
     <FlatList
-      data={matches}
+      data={chats}
       keyExtractor={(item) => item._id}
       renderItem={({ item: match }) => (
         <View>

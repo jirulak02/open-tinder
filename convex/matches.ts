@@ -80,6 +80,12 @@ export const revokeMatch = mutation({
       });
     }
 
+    const messages = await ctx.db
+      .query("messages")
+      .withIndex("by_match", (q) => q.eq("matchId", args.matchId))
+      .collect();
+    await Promise.all(messages.map((message) => ctx.db.delete(message._id)));
+
     await ctx.db.delete(args.matchId);
   },
 });

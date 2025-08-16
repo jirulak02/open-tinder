@@ -13,18 +13,17 @@ import {
 
 import { HorizontalScrollIndicator } from "@/components/HorizontalScrollIndicator";
 import { Text } from "@/components/Text";
-import type { PreviousSwipeData } from "@/features/matches/types";
 import { COLORS, DIMENSIONS } from "@/styles";
 import type { Profile } from "@convex/profiles";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 type Props = {
   profile: Profile;
-  previousSwipeData: PreviousSwipeData | null;
+  hasPreviousSwipe: boolean;
   handleRewind: () => Promise<void>;
 };
 
-export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) => {
+export const SwipeCard = ({ profile, hasPreviousSwipe, handleRewind }: Props) => {
   const { name, age, description, images } = profile;
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -71,7 +70,7 @@ export const SwipeCard = ({ profile, previousSwipeData, handleRewind }: Props) =
         currentIndex={currentIndex}
         onPress={goToIndex}
       />
-      {previousSwipeData && (
+      {hasPreviousSwipe && (
         <TouchableOpacity onPress={handleRewind} style={styles.rewindButton}>
           <FontAwesome6 name="arrow-rotate-left" size={24} color={COLORS.white} />
         </TouchableOpacity>
