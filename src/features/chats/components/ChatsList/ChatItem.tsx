@@ -2,7 +2,7 @@ import { useQuery } from "convex/react";
 import { Image, StyleSheet, View } from "react-native";
 
 import { Text } from "@/components/Text";
-import { DIMENSIONS } from "@/styles";
+import { COLORS, DIMENSIONS } from "@/styles";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
 import { Profile } from "@convex/profiles";
@@ -41,6 +41,8 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 15,
+    borderWidth: 1,
+    borderColor: COLORS.subtleGray,
   },
   name: {
     fontSize: 16,
@@ -48,6 +50,6 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 14,
-    width: DIMENSIONS.width - 85,
+    width: DIMENSIONS.width - 105,
   },
 });

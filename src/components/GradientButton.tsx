@@ -8,16 +8,16 @@ export const GradientButton = ({ children, disabled, ...rest }: TouchableOpacity
   if (disabled) {
     return (
       <TouchableOpacity
-        {...rest}
         disabled={disabled}
         style={[styles.button, styles.buttonDisabled]}
+        {...rest}
       >
         <Text style={styles.buttonText}>{children}</Text>
       </TouchableOpacity>
     );
   }
   return (
-    <TouchableOpacity {...rest} disabled={disabled}>
+    <TouchableOpacity disabled={disabled} {...rest}>
       <LinearGradient
         colors={GRADIENT.colors}
         start={GRADIENT.start}

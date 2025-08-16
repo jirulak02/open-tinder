@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 8,
     elevation: 1,
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowColor: COLORS.black,
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    shadowColor: COLORS.lightGray,
     shadowOffset: { height: 5, width: 0 },
   },
 });

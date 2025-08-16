@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     width: 40,
     height: 40,
+    borderWidth: 1,
+    borderColor: COLORS.subtleGray,
   },
   title: {
     fontSize: 22,

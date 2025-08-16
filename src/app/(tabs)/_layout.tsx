@@ -106,9 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
     borderTopWidth: 0,
     marginBottom: 0,
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    shadowColor: COLORS.black,
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    shadowColor: COLORS.subtleGray,
     shadowOffset: { height: 0, width: 0 },
   },
   scene: {

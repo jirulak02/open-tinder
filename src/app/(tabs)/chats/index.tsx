@@ -7,9 +7,7 @@ import { COLORS } from "@/styles";
 const ChatsScreen = () => {
   return (
     <View style={styles.container}>
-      <View style={styles.top}>
-        <Text style={styles.title}>Chats</Text>
-      </View>
+      <Text style={styles.title}>Chats</Text>
       <ChatsList />
     </View>
   );
@@ -17,14 +15,8 @@ const ChatsScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
     flex: 1,
-    paddingHorizontal: 10,
-  },
-  top: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 22,
