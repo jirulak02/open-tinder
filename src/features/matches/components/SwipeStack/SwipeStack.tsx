@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 import { type SwipeDirection, SwipeableCardStack } from "react-native-swipeable-card-stack";
 
+import { EmptyStack } from "./EmptyStack";
 import { SwipeCard } from "./SwipeCard";
 import type { PreviousSwipeData } from "@/features/matches/types";
 import { api } from "@convex/_generated/api";
@@ -57,6 +58,10 @@ export const SwipeStack = ({ potentialMatches }: Props) => {
     setPreviousSwipeData(null);
     setSwipes([]);
   };
+
+  if (potentialMatches.length === 0) {
+    return <EmptyStack hasPreviousSwipe={swipes.length > 0} handleRewind={handleRewind} />;
+  }
 
   return (
     <SwipeableCardStack

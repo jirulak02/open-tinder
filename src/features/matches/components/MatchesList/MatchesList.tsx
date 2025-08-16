@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 
 import { MatchItem } from "./MatchItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { NoResults } from "@/components/NoResults";
 import { DIMENSIONS } from "@/styles";
 import { api } from "@convex/_generated/api";
 
@@ -11,6 +12,10 @@ export const MatchesList = () => {
 
   if (!matches) {
     return <LoadingIndicator />;
+  }
+
+  if (matches.length === 0) {
+    return <NoResults text="You don't have any matches yet." />;
   }
 
   return (

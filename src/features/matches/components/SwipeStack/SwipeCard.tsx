@@ -112,16 +112,6 @@ const styles = StyleSheet.create({
     right: 0,
     height: 200,
   },
-  changeImageOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    flexDirection: "row",
-  },
-  leftHitbox: {
-    flex: 1,
-  },
-  rightHitbox: {
-    flex: 1,
-  },
   rewindButton: {
     position: "absolute",
     top: 16,
@@ -130,10 +120,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     padding: 12,
     opacity: 0.7,
-  },
-  disabledRewindButton: {
-    opacity: 0.5,
-    backgroundColor: COLORS.gray,
   },
   infoContainer: {
     position: "absolute",

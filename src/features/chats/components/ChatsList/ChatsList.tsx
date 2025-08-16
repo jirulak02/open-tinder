@@ -4,6 +4,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { ChatItem } from "./ChatItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { NoResults } from "@/components/NoResults";
 import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
 
@@ -12,6 +13,10 @@ export const ChatsList = () => {
 
   if (!chats) {
     return <LoadingIndicator />;
+  }
+
+  if (chats.length === 0) {
+    return <NoResults text="You don't have any chats yet." />;
   }
 
   return (

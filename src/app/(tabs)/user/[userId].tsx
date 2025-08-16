@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
   },
   infoCard: {
-    marginHorizontal: 20,
-    marginTop: -65,
+    marginHorizontal: 10,
+    marginTop: -60,
   },
 });
 
