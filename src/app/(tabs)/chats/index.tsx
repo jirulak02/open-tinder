@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 
 import { Text } from "@/components/Text";
-import { ChatList } from "@/features/chats/components/ChatList";
+import { ChatsList } from "@/features/chats/components/ChatsList";
 import { COLORS } from "@/styles";
 
 const ChatsScreen = () => {
@@ -10,7 +10,7 @@ const ChatsScreen = () => {
       <View style={styles.top}>
         <Text style={styles.title}>Chats</Text>
       </View>
-      <ChatList />
+      <ChatsList />
     </View>
   );
 };

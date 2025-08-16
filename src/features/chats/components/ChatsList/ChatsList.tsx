@@ -7,7 +7,7 @@ import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { COLORS } from "@/styles";
 import { api } from "@convex/_generated/api";
 
-export const ChatList = () => {
+export const ChatsList = () => {
   const matches = useQuery(api.matches.getMatches);
 
   if (!matches) {
